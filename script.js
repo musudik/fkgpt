@@ -348,14 +348,39 @@ document.addEventListener('DOMContentLoaded', () => {
 const adjectives = [
   'Cosmic', 'Quantum', 'Neon', 'Cyber', 'Digital', 'Crystal', 'Solar', 'Lunar',
   'Stellar', 'Astral', 'Nebula', 'Plasma', 'Vector', 'Binary', 'Neural', 'Fusion',
-  'Photon', 'Quantum', 'Zenith', 'Echo', 'Pulse', 'Void', 'Nova', 'Apex', 'Prime'
+  'Photon', 'Quantum', 'Zenith', 'Echo', 'Pulse', 'Void', 'Nova', 'Apex', 'Prime',
+  'Galactic', 'Celestial', 'Radiant', 'Horizon', 'Ethereal', 'Hyper', 'Vortex', 'Chrome',
+  'Psycho', 'Arcane', 'Holographic', 'Magneto', 'Dynamic', 'Electric', 'Sonic', 'Warp',
+  'Fractal', 'Glacial', 'Mirage', 'Titanium', 'Infernal', 'Omega', 'Ultra', 'Cyborg',
+  'Prismatic', 'Solaris', 'Chroma', 'Eon', 'Oblivion', 'Terra', 'Graviton', 'Hypernova',
+  'Pyro', 'Nebular', 'Eclipse', 'Monolithic', 'Spectral', 'Pulsar', 'Aurora', 'Blazing',
+  'Turbulent', 'Resonant', 'Luminous', 'Temporal', 'Singular', 'Empyreal', 'Harmonic',
+  'Titan', 'Celestine', 'Subzero', 'Kinetic', 'Echoing', 'Hallowed', 'Exalted', 'Stormborne',
+  'Shimmering', 'Wraithlike', 'Solarwind', 'Halcyon', 'Illuminated', 'Omnipresent', 'Perpetual',
+  'Lucid', 'Eldritch', 'Obsidian', 'Etherbound', 'Astronomic', 'Nocturnal', 'Zephyr', 'Eruptive',
+  'Cyclonic', 'Stygian', 'Penumbral', 'Thundering', 'Radiative', 'Temporal', 'Futuristic', 'Voidborn',
+  'Empowered', 'Glistening', 'Augmented', 'Chromatic', 'Venerated', 'Omniscient', 'Sublime', 'Galvanic',
+  'Blitz', 'Superluminal', 'Transcendent', 'Synaptic', 'Volatile', 'Dissonant', 'Etheric', 'Encrypted'
 ];
 
 const nouns = [
   'Phoenix', 'Matrix', 'Nexus', 'Vector', 'Cipher', 'Prism', 'Vertex', 'Core',
   'Spark', 'Wave', 'Pulse', 'Node', 'Grid', 'Sphere', 'Helix', 'Echo', 'Flux',
-  'Blade', 'Storm', 'Shadow', 'Light', 'Dawn', 'Drift', 'Path', 'Edge'
+  'Blade', 'Storm', 'Shadow', 'Light', 'Dawn', 'Drift', 'Path', 'Edge',
+  'Beacon', 'Galaxy', 'Quasar', 'Horizon', 'Comet', 'Satellite', 'Vortex', 'Circuit',
+  'Warp', 'Helium', 'Nova', 'Astro', 'Pluton', 'Orbit', 'Solarflare', 'Equinox',
+  'Binary', 'Algorithm', 'Code', 'Glitch', 'Firewall', 'Neutron', 'Aether', 'Stratos',
+  'Chrono', 'Eon', 'Havoc', 'Titan', 'Nebulae', 'Quantumgate', 'Zephyr', 'Singularity',
+  'Infinity', 'Tesseract', 'Blackhole', 'Solarwind', 'Aurora', 'Supernova', 'Graviton',
+  'Starlight', 'Radiance', 'Sentinel', 'Parallax', 'Mnemonic', 'Exosphere', 'Abyss',
+  'EventHorizon', 'Asteroid', 'Propulsion', 'Omniverse', 'Tesla', 'Empyrean', 'Polaris',
+  'Oblivion', 'Resonance', 'Pioneer', 'Hyperdrive', 'Dimensional', 'Shockwave', 'Meteor',
+  'NeuralNet', 'Eclipse', 'Elysium', 'Arcade', 'Ether', 'Zodiac', 'Subsonic', 'Machina',
+  'Fission', 'Draconis', 'Ignition', 'Chronos', 'Spectrum', 'Crypton', 'Monolith', 'Synthetica',
+  'Obsidian', 'Mindstorm', 'Aurorae', 'NeonFlux', 'Hypercube', 'Cybernetic', 'Omicron', 'Darkstar',
+  'Pandora', 'Celestia', 'Nebular', 'Enigma', 'Galvanic', 'Mecha', 'Voidheart', 'Solstice'
 ];
+
 
 function generateCustomName() {
   const adjective = adjectives[Math.floor(Math.random() * adjectives.length)];

@@ -943,6 +943,7 @@ body {
 
 .neon-button {
   width: 20%;
+  margin-top: 10px;
   padding: 10px 20px;
   background: transparent;
   border: 1px solid #0ff;
