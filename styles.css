@@ -368,7 +368,7 @@ body {
 
 .section-title {
   text-align: center;
-  font-size: 2.5rem;
+  font-size: 1.5rem;
   margin-bottom: 60px;
   background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
   -webkit-background-clip: text;
@@ -942,6 +942,22 @@ body {
 }
 
 .neon-button {
+  width: 20%;
+  padding: 10px 20px;
+  background: transparent;
+  border: 1px solid #0ff;
+  color: #0ff;
+  border-radius: 5px;
+  font-family: var(--font-family);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.9rem;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+}
+
+.clock-neon-button {
   width: 100%;
   padding: 10px 20px;
   background: transparent;
@@ -967,4 +983,47 @@ body {
 .neon-button:active {
   transform: scale(0.98);
   box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+}
+
+.name-generator {
+  padding: 30px;
+  margin: 30px 0;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+  text-align: center;
+}
+
+.generator-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.generated-name {
+  font-size: 1.2rem;
+  color: #0ff;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+  padding: 20px;
+  border: 1px solid #0ff;
+  border-radius: 10px;
+  min-width: 300px;
+  background: rgba(0, 0, 0, 0.7);
+  transition: all 0.3s ease;
+}
+
+.generated-name.animate {
+  animation: glowPulse 0.5s ease-in-out;
+}
+
+@keyframes glowPulse {
+  0% { box-shadow: 0 0 10px rgba(0, 255, 255, 0.3); }
+  50% { box-shadow: 0 0 30px rgba(0, 255, 255, 0.7); }
+  100% { box-shadow: 0 0 10px rgba(0, 255, 255, 0.3); }
+}
+
+#generateBtn {
+  min-width: 200px;
 }

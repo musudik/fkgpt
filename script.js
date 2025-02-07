@@ -343,3 +343,72 @@ document.addEventListener('DOMContentLoaded', () => {
     populateTimezoneSelect(e.target.value);
   });
 });
+
+// Keep the existing adjectives and nouns arrays
+const adjectives = [
+  'Cosmic', 'Quantum', 'Neon', 'Cyber', 'Digital', 'Crystal', 'Solar', 'Lunar',
+  'Stellar', 'Astral', 'Nebula', 'Plasma', 'Vector', 'Binary', 'Neural', 'Fusion',
+  'Photon', 'Quantum', 'Zenith', 'Echo', 'Pulse', 'Void', 'Nova', 'Apex', 'Prime'
+];
+
+const nouns = [
+  'Phoenix', 'Matrix', 'Nexus', 'Vector', 'Cipher', 'Prism', 'Vertex', 'Core',
+  'Spark', 'Wave', 'Pulse', 'Node', 'Grid', 'Sphere', 'Helix', 'Echo', 'Flux',
+  'Blade', 'Storm', 'Shadow', 'Light', 'Dawn', 'Drift', 'Path', 'Edge'
+];
+
+function generateCustomName() {
+  const adjective = adjectives[Math.floor(Math.random() * adjectives.length)];
+  const noun = nouns[Math.floor(Math.random() * nouns.length)];
+  return `${adjective} ${noun}`;
+}
+
+function generateRandomName() {
+  const generatedName = document.getElementById('generatedName');
+  generatedName.textContent = 'Generating...';
+  
+  // Add loading animation
+  generatedName.style.opacity = '0.7';
+
+  $.ajax({
+    url: 'https://randomuser.me/api/',
+    dataType: 'json',
+    success: function(data) {
+      const user = data.results[0];
+      const names = [
+        // API generated name
+        `${user.name.first} ${user.name.last}`,
+        // Custom generated name
+        generateCustomName()
+      ];
+      
+      // Randomly choose between API name and custom name
+      const selectedName = names[Math.floor(Math.random() * names.length)];
+      
+      // Update display with animation
+      generatedName.textContent = selectedName;
+      generatedName.style.opacity = '1';
+      
+      // Add glow animation
+      generatedName.classList.remove('animate');
+      void generatedName.offsetWidth; // Trigger reflow
+      generatedName.classList.add('animate');
+    },
+    error: function() {
+      // Fallback to custom name generator if API fails
+      const fallbackName = generateCustomName();
+      generatedName.textContent = fallbackName;
+      generatedName.style.opacity = '1';
+      
+      // Add glow animation
+      generatedName.classList.remove('animate');
+      void generatedName.offsetWidth;
+      generatedName.classList.add('animate');
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const generateBtn = document.getElementById('generateBtn');
+  generateBtn.addEventListener('click', generateRandomName);
+});
