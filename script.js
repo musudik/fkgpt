@@ -505,3 +505,54 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  const coin = document.getElementById('coin');
+  const flipButton = document.getElementById('flip-button');
+  const resultDisplay = document.getElementById('flip-result');
+  let isFlipping = false;
+
+  function flipCoin() {
+    if (isFlipping) return;
+    isFlipping = true;
+
+    // Reset classes
+    resultDisplay.className = 'flip-result';
+    resultDisplay.textContent = 'Flipping...';
+    
+    // Add flipping animation
+    coin.classList.add('flipping');
+    
+    // Disable button during flip
+    flipButton.disabled = true;
+    flipButton.style.opacity = '0.5';
+
+    // Generate random result
+    const result = Math.random() < 0.5 ? 'heads' : 'tails';
+
+    // After animation completes
+    setTimeout(() => {
+      // Remove flipping animation
+      coin.classList.remove('flipping');
+      
+      // Set final rotation based on result
+      coin.style.transform = result === 'heads' ? 'rotateY(0)' : 'rotateY(180deg)';
+      
+      // Update result text with animation
+      resultDisplay.className = `flip-result ${result}`;
+      resultDisplay.textContent = result.toUpperCase();
+      
+      // Re-enable button
+      flipButton.disabled = false;
+      flipButton.style.opacity = '1';
+      isFlipping = false;
+
+      // Add result animation
+      resultDisplay.style.animation = 'none';
+      resultDisplay.offsetHeight; // Trigger reflow
+      resultDisplay.style.animation = 'glowPulse 0.5s ease-in-out';
+    }, 3000);
+  }
+
+  flipButton.addEventListener('click', flipCoin);
+});
