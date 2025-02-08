@@ -437,3 +437,71 @@ document.addEventListener('DOMContentLoaded', () => {
   const generateBtn = document.getElementById('generateBtn');
   generateBtn.addEventListener('click', generateRandomName);
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  const chatWidget = document.getElementById('chatWidget');
+  const minimizeBtn = document.getElementById('minimizeChat');
+  const chatInput = document.getElementById('chatInput');
+  const sendBtn = document.getElementById('sendMessage');
+  const messagesContainer = document.getElementById('chatMessages');
+  
+  const BASE_URL = 'https://207.180.235.87'; // Changed to HTTPS
+
+  // Toggle chat window
+  minimizeBtn.addEventListener('click', () => {
+    chatWidget.classList.toggle('minimized');
+    minimizeBtn.textContent = chatWidget.classList.contains('minimized') ? '+' : '−';
+  });
+
+  function addMessage(text, isUser) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${isUser ? 'user' : 'bot'}`;
+    messageDiv.innerHTML = `
+      <div class="message-content">${text}</div>
+    `;
+    messagesContainer.appendChild(messageDiv);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  }
+
+  async function handleSend() {
+    const message = chatInput.value.trim();
+    if (!message) return;
+
+    // Add user message
+    addMessage(message, true);
+    chatInput.value = '';
+
+    try {
+      const response = await fetch(`${BASE_URL}/chat/generate`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Origin': window.location.origin
+        },
+        credentials: 'include', // Include credentials if needed
+        body: JSON.stringify({ prompt: message }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      addMessage(data.message, false);
+    } catch (error) {
+      console.error('Error:', error);
+      addMessage('Sorry, I encountered an error. Please try again.', false);
+    }
+  }
+
+  // Send message on button click
+  sendBtn.addEventListener('click', handleSend);
+
+  // Send message on Enter key
+  chatInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      handleSend();
+    }
+  });
+});
