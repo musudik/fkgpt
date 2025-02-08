@@ -1441,3 +1441,79 @@ body {
   border-radius: 4px;
   box-shadow: 0 0 5px var(--color1);
 }
+
+.ticker-section {
+    width: 100%;
+    padding: 0;
+}
+
+.ticker-container {
+    width: 100%;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.8);
+    overflow: hidden;
+    position: relative;
+    border-top: 1px solid var(--primary-color);
+    border-bottom: 1px solid var(--primary-color);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+}
+
+.ticker-wrapper {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    background: linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0.9) 0%,
+        rgba(0, 0, 0, 0.5) 5%,
+        rgba(0, 0, 0, 0.5) 95%,
+        rgba(0, 0, 0, 0.9) 100%
+    );
+}
+
+.ticker-text {
+    color: var(--primary-color);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1.2em;
+    line-height: 40px;
+    white-space: nowrap;
+    position: absolute;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    animation: ticker 30s linear infinite;
+}
+
+@keyframes ticker {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+/* Add hover effect to pause the ticker */
+.ticker-wrapper:hover .ticker-text {
+    animation-play-state: paused;
+}
+
+/* Add gradient fade effects on the edges */
+.ticker-container::before,
+.ticker-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 50px;
+    height: 100%;
+    z-index: 2;
+}
+
+.ticker-container::before {
+    left: 0;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.8), transparent);
+}
+
+.ticker-container::after {
+    right: 0;
+    background: linear-gradient(to left, rgba(0, 0, 0, 0.8), transparent);
+}

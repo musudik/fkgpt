@@ -713,3 +713,43 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+
+async function fetchNews() {
+    try {
+        // Using rss2json service to convert RSS feed to JSON and handle CORS
+        const rssUrl = 'https://news.google.com/rss/search?q=apple&hl=en-US&gl=US&ceid=US:en';
+        const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`);
+        
+        const data = await response.json();
+        
+        if (data.status === 'ok') {
+            let newsText = '';
+            data.items.forEach(item => {
+                newsText += `${item.title} • `;
+            });
+
+            const tickerElement = document.querySelector('.ticker-text');
+            tickerElement.textContent = newsText;
+        } else {
+            throw new Error('Failed to fetch RSS feed');
+        }
+
+    } catch (error) {
+        console.error('Error fetching news:', error);
+        const tickerElement = document.querySelector('.ticker-text');
+        tickerElement.textContent = 'Loading latest Apple news... Please wait •';
+    }
+}
+
+// Initial fetch
+fetchNews();
+
+// Refresh every 5 minutes
+setInterval(fetchNews, 300000);
+
+// Add event listener to restart animation when it completes
+document.querySelector('.ticker-text').addEventListener('animationend', function() {
+    this.style.animation = 'none';
+    this.offsetHeight; // Trigger reflow
+    this.style.animation = 'ticker 30s linear infinite';
+});
