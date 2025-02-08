@@ -556,3 +556,160 @@ document.addEventListener('DOMContentLoaded', () => {
 
   flipButton.addEventListener('click', flipCoin);
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  const typeSound = new Audio('data:audio/wav;base64,//uQRAAAAWMSLwUIYAAsYkXgoQwAEaYLWfkWgAI0wWs/ItAAAGDgYtAgAyN+QWaAAihwMWm4G8QQRDiMcCBcH3Cc+CDv/7xA4Tvh9Rz/y8QADBwMWgQAZG/ILNAARQ4GLTcDeIIIhxGOBAuD7hOfBB3/94gcJ3w+o5/5eIAIAAAVwWgQAVQ2ORaIQwEMAJiDg95G4nQL7mQVWI6GwRcfsZAcsKkJvxgxEjzFUgfHoSQ9Qq7KNwqHwuB13MA4a1q/DmBrHgPcmjiGoh//EwC5nGPEmS4RcfkVKOhJf+WOgoxJclFz3kgn//dBA+ya1GhurNn8zb//9NNutNuhz31f////9vt///z+IdAEAAAK4LQIAKobHItEIYCGAExBwe8jcToF9zIKrEdDYIuP2MgOWFSE34wYiR5iqQPj0JIeoVdlG4VD4XA67mAcNa1fhzA1jwHuTRxDUQ//iYBczjHiTJcIuPyKlHQkv/LHQUYkuSi57yQT//uggfZNajQ3Vmz+Zt//+mm3Wm3Q576v////+32///5/EOgAAADVghQAAAAA==');
+  const hoverSound = new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU');
+
+  typeSound.volume = 0.1;
+  hoverSound.volume = 0.05;
+
+  function typeWriter(element, text, speed = 50) {
+    let i = 0;
+    element.textContent = '';
+    
+    function type() {
+      if (i < text.length) {
+        element.textContent += text.charAt(i);
+        typeSound.currentTime = 0;
+        typeSound.play();
+        i++;
+        setTimeout(type, speed);
+      }
+    }
+    
+    type();
+  }
+
+  const neonColors = [
+    ['#ff00ff', '#00ffff', '#ff00aa'],
+    ['#00ff00', '#00ffff', '#00aa00'],
+    ['#ff0000', '#ff00ff', '#aa0000'],
+    ['#00ffff', '#0000ff', '#00aaff'],
+    ['#ffff00', '#ff00ff', '#ffaa00']
+  ];
+
+  function getRandomNeonTheme() {
+    return neonColors[Math.floor(Math.random() * neonColors.length)];
+  }
+
+  const appDescriptions = {
+    'nameGenerator': `
+     CYBERNETIC NAME GENERATOR v2.0
+      =============================
+      PRIMARY FUNCTION:
+      Generate unique identifiers for entities in the digital realm using advanced AI algorithms 
+      and quantum randomization protocols.
+    `,
+    
+    'coinToss': `
+      BINARY FATE DETERMINATOR v1.5
+      ============================
+      PRIMARY FUNCTION:
+      Harness quantum uncertainty principles to generate true random binary outcomes through 
+     an advanced visualization interface.
+     `
+  };
+
+  function createHelpBubble(description, iconElement) {
+    const bubble = document.createElement('div');
+    bubble.className = 'help-bubble';
+    
+    const iconRect = iconElement.getBoundingClientRect();
+    bubble.style.top = `${iconRect.top}px`;
+    bubble.style.left = `${iconRect.left - 780}px`; // Adjusted for new width
+    
+    const bubbleBackground = document.createElement('div');
+    bubbleBackground.className = 'bubble-background';
+    
+    const neonGradient = document.createElement('div');
+    neonGradient.className = 'neon-gradient';
+    
+    const bubbleBorder = document.createElement('div');
+    bubbleBorder.className = 'bubble-border';
+    
+    const content = document.createElement('div');
+    content.className = 'bubble-content';
+    
+    bubbleBackground.appendChild(neonGradient);
+    bubble.appendChild(bubbleBackground);
+    bubble.appendChild(bubbleBorder);
+    bubble.appendChild(content);
+    
+    document.body.appendChild(bubble);
+    
+    // Digital text reveal animation
+    function revealText() {
+      const chars = description.split('');
+      content.innerHTML = '';
+      
+      chars.forEach((char, index) => {
+        const span = document.createElement('span');
+        span.className = 'char';
+        span.textContent = char;
+        content.appendChild(span);
+        
+        setTimeout(() => {
+          span.classList.add('visible');
+          if (char !== ' ') {
+            typeSound.currentTime = 0;
+            typeSound.play();
+          }
+        }, index * 30); // Adjust speed here
+      });
+    }
+    
+    // Start the reveal animation after bubble is added
+    setTimeout(revealText, 100);
+    
+    return bubble;
+  }
+
+  document.querySelectorAll('.help-icon').forEach(icon => {
+    const card = icon.closest('.app-card');
+    const appType = card.classList.contains('name-generator') ? 'nameGenerator' : 'coinToss';
+    const description = appDescriptions[appType];
+    let bubble = null;
+
+    icon.addEventListener('mouseenter', () => {
+      document.querySelectorAll('.help-bubble').forEach(b => b.remove());
+      bubble = createHelpBubble(description, icon);
+      
+      const [color1, color2, color3] = getRandomNeonTheme();
+      bubble.style.setProperty('--color1', color1);
+      bubble.style.setProperty('--color2', color2);
+      bubble.style.setProperty('--color3', color3);
+      
+      requestAnimationFrame(() => {
+        bubble.classList.add('active');
+      });
+      
+      hoverSound.currentTime = 0;
+      hoverSound.play();
+    });
+
+    icon.addEventListener('mouseleave', () => {
+      if (bubble) {
+        bubble.classList.remove('active');
+        setTimeout(() => bubble.remove(), 300);
+      }
+    });
+  });
+
+  // Close overlay when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.help-icon')) {
+      document.querySelectorAll('.app-description-overlay').forEach(overlay => {
+        overlay.classList.remove('active');
+        overlay.querySelector('.typing-text').textContent = '';
+      });
+    }
+  });
+
+  // Prevent overlay from closing when clicking inside it
+  document.querySelectorAll('.app-description-overlay').forEach(overlay => {
+    overlay.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+  });
+});
