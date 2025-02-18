@@ -60,10 +60,11 @@
 }
 
 .tambola-container {
+  width: 80%;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  height: 100%;
 }
 
 .tambola-board {
@@ -74,7 +75,8 @@
   background: rgba(0, 0, 0, 0.5);
   border-radius: 10px;
   border: 1px solid rgba(0, 255, 255, 0.2);
-  margin: 20px 0;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .number-cell {
@@ -86,11 +88,12 @@
   border: 1px solid var(--primary-color);
   color: var(--primary-color);
   font-family: 'Share Tech Mono', monospace;
-  font-size: 1.4em;
+  font-size: 1.2em;
   cursor: pointer;
   transition: all 0.3s ease;
   border-radius: 5px;
-  padding: 10px;
+  padding: 5px;
+  min-width: 40px;
   min-height: 40px;
 }
 
@@ -178,4 +181,107 @@
 /* Ensure dropdown menu stays on top */
 .dropdown-content {
   z-index: 1000;
+}
+
+/* Update navbar and logo styles */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background: rgba(0, 0, 0, 0.9);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  border-bottom: 1px solid var(--primary-color);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+}
+
+.nav-logo {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  margin-right: 20px;
+}
+
+/* Update mobile styles */
+@media screen and (max-width: 768px) {
+  .nav-logo {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+  }
+
+  .navbar {
+    padding: 10px;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 60px; /* Adjusted to account for navbar height */
+    right: -100%;
+    height: calc(100vh - 60px);
+    width: 250px;
+    background: rgba(0, 0, 0, 0.95);
+    padding: 20px;
+    transition: 0.3s;
+    flex-direction: column;
+  }
+
+  .navbar.active .nav-links {
+    right: 0;
+  }
+
+  .tambola-container {
+    width: 95%;
+  }
+
+  .number-cell {
+    font-size: 1em;
+    min-width: 30px;
+    min-height: 30px;
+  }
+}
+
+/* Remove old logo container styles */
+.logo-container {
+  display: none;
+}
+
+/* Update body padding to account for fixed navbar */
+body {
+  padding-top: 70px;
+}
+
+@media screen and (max-width: 768px) {
+  body {
+    padding-top: 60px;
+  }
+}
+
+/* Tablet Responsiveness */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  .tambola-page {
+    width: 85%;
+  }
+
+  .logo-container {
+    width: 80px;
+    height: 80px;
+  }
+
+  .number-cell {
+    font-size: 1.2em;
+  }
+
+  .tambola-container {
+    width: 90%;
+  }
 } 

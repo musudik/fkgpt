@@ -206,7 +206,7 @@ body {
 /* Hero Section */
 .hero {
   position: relative;
-  height: 100vh;
+  height: 50vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -444,20 +444,22 @@ body {
 
 .app-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  margin-top: 2rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  padding: 20px;
 }
 
 .app-card {
-  background: rgba(20, 20, 20, 0.8);
-  padding: 2rem;
-  border-radius: 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: all 0.3s ease;
-  text-align: center;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid var(--primary-color);
+  border-radius: 15px;
+  padding: 20px;
   position: relative;
-  overflow: hidden;
+  transition: all 0.3s ease;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .app-card:hover {
@@ -805,6 +807,12 @@ body {
   .social-links {
     justify-content: center;
   }
+
+  .app-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 10px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -872,34 +880,29 @@ body {
 }
 
 .timezone-clocks {
-  display: flex;
-  justify-content: end;
-  align-items: center;
-  top: 300px;
-  padding: 70px 10px 10px 100px;
-  margin-top: 20px 0;
-  background: rgba(0, 0, 0, 0.5);
-  border-radius: 15px;
-
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
-
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Two clocks per row */
+  gap: 20px;
+  padding: 15px;
+  width: 100%;
+  justify-items: center;
 }
 
 .clock-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0 10px;
+  gap: 5px;
 }
 
 .clock {
-  width: 130px;
-  height: 130px;
-  border: 2px solid #0ff;
+  width: 80px; /* Reduced from 80px (20% smaller) */
+  height: 80px; /* Reduced from 80px (20% smaller) */
+  border: 2px solid var(--primary-color);
   border-radius: 50%;
   position: relative;
-  box-shadow: 0 0 15px rgba(0, 255, 255, 0.5),
-              inset 0 0 15px rgba(0, 255, 255, 0.5);
+  background: rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
 }
 
 .clock-face {
@@ -918,48 +921,51 @@ body {
 }
 
 .hour-hand {
-  width: 4px;
-  height: 25%;
-  background: #f0f;
+  width: 2px;
+  height: 20%; /* Reduced from 25% */
+  background: var(--primary-color);
 }
 
 .minute-hand {
-  width: 3px;
-  height: 35%;
-  background: #0ff;
+  width: 2px;
+  height: 28%; /* Reduced from 35% */
+  background: var(--primary-color);
 }
 
 .second-hand {
-  width: 2px;
-  height: 40%;
-  background: #ff0;
+  width: 1px;
+  height: 32%; /* Reduced from 40% */
+  background: #ff0000;
 }
 
 .center-dot {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 8px;
-  height: 8px;
-  background: #0ff;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
+  width: 5px; /* Reduced from 6px */
+  height: 5px; /* Reduced from 6px */
 }
 
 .city-name {
-  margin-top: 10px;
-  color: #0ff;
-  font-size: 1rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  text-shadow: 0 0 5px #0ff;
+  font-size: 0.85em;
+  margin-top: 5px;
 }
 
 .time-display {
-  margin-top: 5px;
-  color: #fff;
-  font-size: 0.9rem;
-  text-shadow: 0 0 5px #0ff;
+  font-size: 0.75em;
+}
+
+/* Mobile responsiveness */
+@media screen and (max-width: 768px) {
+  .clock {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .city-name {
+    font-size: 0.75em;
+  }
+  
+  .time-display {
+    font-size: 0.7em;
+  }
 }
 
 .clock-controls {
@@ -1145,27 +1151,32 @@ body {
   min-width: 200px;
 }
 
+/* Update chat widget styles */
 .chat-widget {
   position: fixed;
-  bottom: 30px;
-  right: 30px;
-  width: 350px;
+  bottom: -400px; /* Start hidden, showing just the header */
+  right: 20px;
+  width: 300px;
   background: rgba(0, 0, 0, 0.9);
   border: 1px solid var(--primary-color);
-  border-radius: 15px;
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+  border-radius: 10px 10px 0 0;
+  transition: bottom 0.3s ease;
   z-index: 1000;
-  overflow: hidden;
-  font-family: var(--font-family);
+}
+
+.chat-widget.open {
+  bottom: 0;
 }
 
 .chat-header {
+  padding: 10px;
   background: rgba(0, 0, 0, 0.8);
-  padding: 15px;
+  border-bottom: 1px solid var(--primary-color);
+  cursor: pointer;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid var(--primary-color);
+  border-radius: 10px 10px 0 0;
 }
 
 .chat-title {
@@ -1523,17 +1534,24 @@ body {
 }
 
 .tambola-container {
-  padding: 15px;
+  width: 100%;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: 20px;
+  align-items: center;
 }
 
 .tambola-board {
+  width: 80%;
   display: grid;
   grid-template-columns: repeat(10, 1fr);
-  gap: 5px;
-  margin-bottom: 15px;
+  gap: 8px;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  margin: 0 auto;
 }
 
 .number-cell {
@@ -1543,11 +1561,37 @@ body {
   justify-content: center;
   background: rgba(0, 0, 0, 0.6);
   border: 1px solid var(--primary-color);
-  color: #fff;
+  color: var(--primary-color);
   font-family: 'Share Tech Mono', monospace;
-  font-size: 0.9em;
+  font-size: 1.4em;
   cursor: pointer;
   transition: all 0.3s ease;
+  border-radius: 5px;
+  padding: 5px;
+  min-width: 45px;
+  min-height: 45px;
+}
+
+/* Adjust for mobile screens */
+@media screen and (max-width: 768px) {
+  .tambola-board {
+    width: 95%;
+    gap: 4px;
+    padding: 10px;
+  }
+
+  .number-cell {
+    font-size: 1em;
+    min-width: 30px;
+    min-height: 30px;
+  }
+}
+
+/* Adjust for tablet screens */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  .tambola-board {
+    width: 90%;
+  }
 }
 
 .number-cell.called {

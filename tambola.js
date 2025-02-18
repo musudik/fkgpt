@@ -57,7 +57,7 @@ class TambolaGame {
   }
 
   updateHistory() {
-    const history = this.calledNumbers.slice(-10).reverse().join(' - ');
+    const history = this.calledNumbers.slice(-5).reverse().join(' - ');
     document.getElementById('numberHistory').textContent = history;
   }
 

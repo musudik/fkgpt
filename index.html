@@ -8,13 +8,12 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
+  <link rel="icon" type="image/png" href="images/FKGPT.gif">
 </head>
 <body>
   <canvas id="smokeCanvas"></canvas>
 
-  <div class="logo-container">
-    <img src="images/FKGPT.gif" alt="FK.GPT Logo" class="main-logo">
-  </div>
+  
   
   <div class="neon-circuit">
     <div class="circuit-node" style="top: 10%; left: 15%"></div>
@@ -39,83 +38,18 @@
     </div>
   </nav>
 
-  <div class="timezone-clocks">
-    <div class="clock-container">
-      <div class="clock">
-        <div class="clock-face">
-          <div class="hand hour-hand"></div>
-          <div class="hand minute-hand"></div>
-          <div class="hand second-hand"></div>
-          <div class="center-dot"></div>
-        </div>
-      </div>
-      <div class="city-name">Tokyo</div>
-      <div class="time-display"></div>
+  
+  <section class="hero">
+    <div class="hero-content">
+        <img src="images/FKGPT.gif" alt="FK.GPT Logo" width="200" height="200">
+      <p class="hero-subtitle">The Ultimate AI Playground – Smart, Fun, and Futuristic!</p>
+      <!-- <div class="cta-buttons">
+        <a href="#" class="cta">Get Started</a>
+        <a href="#" class="cta">Learn More</a>
+      </div> -->
     </div>
-
-    <div class="clock-container">
-      <div class="clock">
-        <div class="clock-face">
-          <div class="hand hour-hand"></div>
-          <div class="hand minute-hand"></div>
-          <div class="hand second-hand"></div>
-          <div class="center-dot"></div>
-        </div>
-      </div>
-      <div class="city-name">Dubai</div>
-      <div class="time-display"></div>
-    </div>
-
-    <div class="clock-container">
-      <div class="clock">
-        <div class="clock-face">
-          <div class="hand hour-hand"></div>
-          <div class="hand minute-hand"></div>
-          <div class="hand second-hand"></div>
-          <div class="center-dot"></div>
-        </div>
-      </div>
-      <div class="city-name">London</div>
-      <div class="time-display"></div>
-    </div>
-
-    <div class="clock-container">
-      <div class="clock">
-        <div class="clock-face">
-          <div class="hand hour-hand"></div>
-          <div class="hand minute-hand"></div>
-          <div class="hand second-hand"></div>
-          <div class="center-dot"></div>
-        </div>
-      </div>
-      <div class="city-name">New York</div>
-      <div class="time-display"></div>
-    </div>
-
-    <div class="clock-container">
-      <div class="clock">
-        <div class="clock-face">
-          <div class="hand hour-hand"></div>
-          <div class="hand minute-hand"></div>
-          <div class="hand second-hand"></div>
-          <div class="center-dot"></div>
-        </div>
-      </div>
-      <div class="city-name">Los Angeles</div>
-      <div class="time-display"></div>
-    </div>
-
-    <div class="clock-controls">
-      <div class="timezone-select-wrapper">
-        <input type="text" id="timezone-search" class="neon-input" placeholder="Search timezone...">
-        <select id="timezone-select" class="neon-dropdown" size="5">
-          <option value="">Select a timezone...</option>
-        </select>
-      </div>
-      <button id="add-clock" class="clock-neon-button">Add Clock</button>
-    </div>
-  </div>
-
+  </section>
+  
   <div class="ticker-section">
     <div class="ticker-container">
         <div class="ticker-wrapper">
@@ -125,7 +59,8 @@
   </div>
 
   <section class="apps">
-    <h2 class="section-title">Play Area</h2>
+    <h2 class="section-title">Cyber Play</h2>
+    
     <div class="app-grid">
       <div class="app-card">
         <div class="help-icon">
@@ -172,6 +107,7 @@
               Last 5: <span id="numberHistory"></span>
             </div>
           </div>
+          
         </div>
       </div>
       <div class="app-card">
@@ -198,21 +134,111 @@
           <p class="typing-text"></p>
         </div>
       </div>
+      <!-- Second App Card - World Clocks -->
+    <div class="app-card">
+      <div class="help-icon">
+        <i class="fas fa-question-circle"></i>
+      </div>
+      <div class="app-icon">
+        <i class="fas fa-clock fa-3x"></i>
+      </div>
+      <h3 class="app-name">World Clock</h3>
+      <div class="timezone-clocks">
+        <div class="clock-container">
+          <div class="clock">
+            <div class="clock-face">
+              <div class="hand hour-hand"></div>
+              <div class="hand minute-hand"></div>
+              <div class="hand second-hand"></div>
+              <div class="center-dot"></div>
+            </div>
+          </div>
+          <div class="city-name">Tokyo</div>
+          <div class="time-display"></div>
+        </div>
+    
+        <div class="clock-container">
+          <div class="clock">
+            <div class="clock-face">
+              <div class="hand hour-hand"></div>
+              <div class="hand minute-hand"></div>
+              <div class="hand second-hand"></div>
+              <div class="center-dot"></div>
+            </div>
+          </div>
+          <div class="city-name">Mumbai</div>
+          <div class="time-display"></div>
+        </div>
+
+        <div class="clock-container">
+          <div class="clock">
+            <div class="clock-face">
+              <div class="hand hour-hand"></div>
+              <div class="hand minute-hand"></div>
+              <div class="hand second-hand"></div>
+              <div class="center-dot"></div>
+            </div>
+          </div>
+          <div class="city-name">Dubai</div>
+          <div class="time-display"></div>
+        </div>
+    
+        <div class="clock-container">
+          <div class="clock">
+            <div class="clock-face">
+              <div class="hand hour-hand"></div>
+              <div class="hand minute-hand"></div>
+              <div class="hand second-hand"></div>
+              <div class="center-dot"></div>
+            </div>
+          </div>
+          <div class="city-name">London</div>
+          <div class="time-display"></div>
+        </div>
+    
+        <div class="clock-container">
+          <div class="clock">
+            <div class="clock-face">
+              <div class="hand hour-hand"></div>
+              <div class="hand minute-hand"></div>
+              <div class="hand second-hand"></div>
+              <div class="center-dot"></div>
+            </div>
+          </div>
+          <div class="city-name">New York</div>
+          <div class="time-display"></div>
+        </div>
+    
+        <div class="clock-container">
+          <div class="clock">
+            <div class="clock-face">
+              <div class="hand hour-hand"></div>
+              <div class="hand minute-hand"></div>
+              <div class="hand second-hand"></div>
+              <div class="center-dot"></div>
+            </div>
+          </div>
+          <div class="city-name">Los Angeles</div>
+          <div class="time-display"></div>
+        </div>
+    
+        <div class="clock-controls">
+          <div class="timezone-select-wrapper">
+            <input type="text" id="timezone-search" class="neon-input" placeholder="Search timezone...">
+            <select id="timezone-select" class="neon-dropdown" size="5">
+              <option value="">Select a timezone...</option>
+            </select>
+          </div>
+          <button id="add-clock" class="clock-neon-button">Add Clock</button>
+        </div>
+      </div>
+    </div>
       
     </div>
   </section>
 
-
-  <section class="hero">
-    <div class="hero-content">
-      <h1 class="hero-title">FK.GPT</h1>
-      <p class="hero-subtitle">Revolutionizing AI with cutting-edge technology</p>
-      <div class="cta-buttons">
-        <a href="#" class="cta">Get Started</a>
-        <a href="#" class="cta">Learn More</a>
-      </div>
-    </div>
-  </section>
+  
+  
 
   <section class="apps">
     <h2 class="section-title">Our Apps</h2>
