@@ -713,6 +713,7 @@ document.querySelector('.ticker-text').addEventListener('animationend', function
     this.style.animation = 'ticker 60s linear infinite';
 });
 
+// Update Tambola initialization and controls
 class TambolaGame {
   constructor() {
     this.numbers = Array.from({length: 90}, (_, i) => i + 1);
@@ -722,13 +723,13 @@ class TambolaGame {
     
     this.initializeBoard();
     this.initializeControls();
-    this.initializeFullscreenControls();
   }
 
   initializeBoard() {
     const board = document.querySelector('.tambola-board');
-    board.innerHTML = '';
+    if (!board) return;
     
+    board.innerHTML = '';
     for (let i = 1; i <= 90; i++) {
       const cell = document.createElement('div');
       cell.className = 'number-cell';
@@ -739,114 +740,27 @@ class TambolaGame {
 
   initializeControls() {
     const drawBtn = document.getElementById('drawNumber');
-    const resetBtn = document.getElementById('resetGame');
+    const restartGameToggle = document.querySelector('.restart-game-toggle');
     
-    drawBtn.addEventListener('click', () => this.drawNumber());
-    resetBtn.addEventListener('click', () => this.resetGame());
-  }
-
-  initializeFullscreenControls() {
-    const fullscreenBtn = document.querySelector('.fullscreen-button');
-    
-    fullscreenBtn.addEventListener('click', () => {
-      const tambolaWidget = document.querySelector('.tambola-widget');
-      
-      // Create fullscreen container
-      const fullscreenDiv = document.createElement('div');
-      fullscreenDiv.className = 'tambola-fullscreen';
-      
-      // Add close button
-      const closeBtn = document.createElement('div');
-      closeBtn.className = 'close-fullscreen';
-      closeBtn.innerHTML = '<i class="fas fa-times"></i>';
-      fullscreenDiv.appendChild(closeBtn);
-      
-      // Create main container
-      const mainContainer = document.createElement('div');
-      mainContainer.className = 'tambola-container';
-      
-      // Create current number display
-      const currentNumberDiv = document.createElement('div');
-      currentNumberDiv.className = 'current-number';
-      currentNumberDiv.id = 'currentNumber';
-      currentNumberDiv.textContent = this.currentNumber || '--';
-      mainContainer.appendChild(currentNumberDiv);
-      
-      // Create board
-      const board = document.createElement('div');
-      board.className = 'tambola-board';
-      for (let i = 1; i <= 90; i++) {
-        const cell = document.createElement('div');
-        cell.className = 'number-cell';
-        if (this.calledNumbers.includes(i)) {
-          cell.classList.add('called');
-        }
-        cell.textContent = i;
-        board.appendChild(cell);
-      }
-      mainContainer.appendChild(board);
-      
-      // Create control panel
-      const controlPanel = document.createElement('div');
-      controlPanel.className = 'control-panel';
-      
-      const drawBtn = document.createElement('button');
-      drawBtn.className = 'neon-button';
-      drawBtn.textContent = 'Next Number';
+    if (drawBtn) {
       drawBtn.addEventListener('click', () => this.drawNumber());
-      
-      const resetBtn = document.createElement('button');
-      resetBtn.className = 'neon-button';
-      resetBtn.textContent = 'New Game';
-      resetBtn.addEventListener('click', () => this.resetGame());
-      
-      controlPanel.appendChild(drawBtn);
-      controlPanel.appendChild(resetBtn);
-      
-      fullscreenDiv.appendChild(mainContainer);
-      fullscreenDiv.appendChild(controlPanel);
-      
-      // Create and append history panel
-      const historyPanel = document.createElement('div');
-      historyPanel.className = 'number-history-panel';
-      historyPanel.innerHTML = `
-        <div class="history-title">Called Numbers</div>
-        <div class="history-rows"></div>
-      `;
-      fullscreenDiv.appendChild(historyPanel);
-      
-      document.body.appendChild(fullscreenDiv);
-      
-      // Update the history display
-      this.updateFullscreenHistory(historyPanel);
-      
-      // Add close functionality
-      closeBtn.addEventListener('click', () => {
-        document.body.removeChild(fullscreenDiv);
-        this.updateBoard();
+    }
+    
+    if (restartGameToggle) {
+      restartGameToggle.addEventListener('click', () => {
+        // Add rotation animation
+        const icon = restartGameToggle.querySelector('i');
+        icon.style.transform = 'rotate(360deg)';
+        
+        // Reset the game
+        this.resetGame();
+        
+        // Reset the rotation after animation
+        setTimeout(() => {
+          icon.style.transform = 'rotate(0deg)';
+        }, 1000);
       });
-      
-      // Add escape key listener
-      const escapeHandler = (e) => {
-        if (e.key === 'Escape') {
-          document.body.removeChild(fullscreenDiv);
-          this.updateBoard();
-          document.removeEventListener('keydown', escapeHandler);
-        }
-      };
-      document.addEventListener('keydown', escapeHandler);
-    });
-  }
-
-  updateBoard() {
-    const cells = document.querySelectorAll('.number-cell');
-    cells.forEach((cell, index) => {
-      if (this.calledNumbers.includes(index + 1)) {
-        cell.classList.add('called');
-      } else {
-        cell.classList.remove('called');
-      }
-    });
+    }
   }
 
   drawNumber() {
@@ -855,13 +769,15 @@ class TambolaGame {
       return;
     }
 
-    // Draw random number
     const index = Math.floor(Math.random() * this.numbers.length);
     this.currentNumber = this.numbers.splice(index, 1)[0];
     this.calledNumbers.push(this.currentNumber);
 
     // Update display
-    document.getElementById('currentNumber').textContent = this.currentNumber;
+    const currentNumberDisplay = document.getElementById('currentNumber');
+    if (currentNumberDisplay) {
+      currentNumberDisplay.textContent = this.currentNumber;
+    }
     
     // Update board
     const cells = document.querySelectorAll('.number-cell');
@@ -872,20 +788,14 @@ class TambolaGame {
 
     // Update history
     this.updateHistory();
-
-    // Play sound effect
-    this.playDrawSound();
-
-    // Update fullscreen history if it exists
-    const historyPanel = document.querySelector('.tambola-fullscreen .number-history-panel');
-    if (historyPanel) {
-      this.updateFullscreenHistory(historyPanel);
-    }
   }
 
   updateHistory() {
     const history = this.calledNumbers.slice(-5).reverse().join(' - ');
-    document.getElementById('numberHistory').textContent = history;
+    const historyDisplay = document.getElementById('numberHistory');
+    if (historyDisplay) {
+      historyDisplay.textContent = history;
+    }
   }
 
   resetGame() {
@@ -893,47 +803,60 @@ class TambolaGame {
     this.calledNumbers = [];
     this.currentNumber = null;
     
-    document.getElementById('currentNumber').textContent = '--';
-    document.getElementById('numberHistory').textContent = '';
+    const currentNumberDisplay = document.getElementById('currentNumber');
+    if (currentNumberDisplay) {
+      currentNumberDisplay.textContent = '--';
+    }
+    
+    const historyDisplay = document.getElementById('numberHistory');
+    if (historyDisplay) {
+      historyDisplay.textContent = '';
+    }
     
     document.querySelectorAll('.number-cell').forEach(cell => {
       cell.classList.remove('called', 'just-called');
     });
   }
-
-  playDrawSound() {
-      const typeSound = new Audio('data:audio/wav;base64,//uQRAAAAWMSLwUIYAAsYkXgoQwAEaYLWfkWgAI0wWs/ItAAAGDgYtAgAyN+QWaAAihwMWm4G8QQRDiMcCBcH3Cc+CDv/7xA4Tvh9Rz/y8QADBwMWgQAZG/ILNAARQ4GLTcDeIIIhxGOBAuD7hOfBB3/94gcJ3w+o5/5eIAIAAAVwWgQAVQ2ORaIQwEMAJiDg95G4nQL7mQVWI6GwRcfsZAcsKkJvxgxEjzFUgfHoSQ9Qq7KNwqHwuB13MA4a1q/DmBrHgPcmjiGoh//EwC5nGPEmS4RcfkVKOhJf+WOgoxJclFz3kgn//dBA+ya1GhurNn8zb//9NNutNuhz31f////9vt///z+IdAEAAAK4LQIAKobHItEIYCGAExBwe8jcToF9zIKrEdDYIuP2MgOWFSE34wYiR5iqQPj0JIeoVdlG4VD4XA67mAcNa1fhzA1jwHuTRxDUQ//iYBczjHiTJcIuPyKlHQkv/LHQUYkuSi57yQT//uggfZNajQ3Vmz+Zt//+mm3Wm3Q576v////+32///5/EOgAAADVghQAAAAA==');
-      typeSound.volume = 0.2;
-      typeSound.play().catch(error => console.log('Error playing sound:', error));
-  }
-
-  updateFullscreenHistory(panel) {
-    const historyRows = panel.querySelector('.history-rows');
-    const numbers = [...this.calledNumbers].reverse();
-    historyRows.innerHTML = '';
-
-    // Group numbers into rows of 5
-    for (let i = 0; i < numbers.length; i += 5) {
-      const row = document.createElement('div');
-      row.className = 'history-row';
-      
-      const rowNumbers = numbers.slice(i, i + 5);
-      rowNumbers.forEach((num, index) => {
-        const numDiv = document.createElement('div');
-        numDiv.className = 'history-number';
-        if (i === 0) numDiv.classList.add('latest'); // Highlight latest row
-        numDiv.textContent = num;
-        row.appendChild(numDiv);
-      });
-      
-      historyRows.appendChild(row);
-    }
-  }
 }
 
+// Initialize on DOM load
 document.addEventListener('DOMContentLoaded', () => {
-    // ... existing DOMContentLoaded code ...
-    
-    // Initialize Tambola game
-    const tambolaGame = new TambolaGame();
+  const tambolaGame = new TambolaGame();
+});
+
+// Add this to your existing clock initialization code
+function initializeClockControls() {
+  const toggleBtn = document.querySelector('.add-clock-toggle');
+  const clockControls = document.querySelector('.clock-controls');
+  
+  toggleBtn.addEventListener('click', () => {
+    clockControls.classList.toggle('show');
+    // Change icon based on state
+    const icon = toggleBtn.querySelector('i');
+    if (clockControls.classList.contains('show')) {
+      icon.classList.remove('fa-plus');
+      icon.classList.add('fa-minus');
+    } else {
+      icon.classList.remove('fa-minus');
+      icon.classList.add('fa-plus');
+    }
+  });
+
+  // Close controls when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!clockControls.contains(e.target) && 
+        !toggleBtn.contains(e.target) && 
+        clockControls.classList.contains('show')) {
+      clockControls.classList.remove('show');
+      const icon = toggleBtn.querySelector('i');
+      icon.classList.remove('fa-minus');
+      icon.classList.add('fa-plus');
+    }
+  });
+}
+
+// Add to your DOMContentLoaded event
+document.addEventListener('DOMContentLoaded', () => {
+  initializeClockControls();
+  // ... rest of your initialization code
 });
