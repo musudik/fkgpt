@@ -1058,7 +1058,7 @@ body {
 }
 
 .neon-button {
-  width: 20%;
+  width: 30%;
   margin-top: 10px;
   padding: 10px 20px;
   background: transparent;
@@ -1480,7 +1480,7 @@ body {
     white-space: nowrap;
     position: absolute;
     text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
-    animation: ticker 30s linear infinite;
+    animation: ticker 60s linear infinite;
 }
 
 @keyframes ticker {
@@ -1516,4 +1516,231 @@ body {
 .ticker-container::after {
     right: 0;
     background: linear-gradient(to left, rgba(0, 0, 0, 0.8), transparent);
+}
+
+.tambola-widget {
+  min-height: 500px;
+}
+
+.tambola-container {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.tambola-board {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 5px;
+  margin-bottom: 15px;
+}
+
+.number-cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid var(--primary-color);
+  color: #fff;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.9em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.number-cell.called {
+  background: rgba(0, 255, 255, 0.2);
+  color: var(--primary-color);
+  text-shadow: 0 0 10px var(--primary-color);
+  border-color: var(--primary-color);
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+}
+
+.current-number {
+  font-size: 2.5em;
+  color: var(--primary-color);
+  text-align: center;
+  text-shadow: 0 0 20px var(--primary-color);
+  font-family: 'Share Tech Mono', monospace;
+  margin: 10px 0;
+  min-height: 60px;
+}
+
+.control-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin: 15px 0;
+}
+
+.number-history {
+  text-align: center;
+  color: #fff;
+  font-family: 'Share Tech Mono', monospace;
+  margin-top: 10px;
+  min-height: 20px;
+}
+
+.tambola-controls {
+  background: rgba(0, 0, 0, 0.4);
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid var(--primary-color);
+}
+
+@keyframes numberPop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.number-cell.just-called {
+  animation: numberPop 0.5s ease;
+}
+
+.fullscreen-button {
+  position: absolute;
+  top: 10px;
+  right: 50px; /* Positioned next to help icon */
+  color: var(--primary-color);
+  font-size: 1.2em;
+  cursor: pointer;
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.fullscreen-button:hover {
+  transform: scale(1.1);
+  text-shadow: 0 0 10px var(--primary-color);
+}
+
+.tambola-fullscreen {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60%;
+  height: 60%;
+  background: rgba(0, 0, 0, 0.95);
+  z-index: 9999;
+  display: grid;
+  grid-template-columns: 1fr 250px;
+  grid-template-rows: 1fr auto;
+  gap: 20px;
+  padding: 20px;
+  border: 2px solid var(--primary-color);
+  border-radius: 15px;
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+}
+
+.tambola-fullscreen .tambola-container {
+  grid-column: 1;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.tambola-fullscreen .control-panel {
+  grid-column: 1;
+  grid-row: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  border-top: 1px solid var(--primary-color);
+}
+
+.tambola-fullscreen .control-panel button {
+  font-size: 1.2em;
+  padding: 12px 25px;
+  background: transparent;
+  border: 2px solid var(--primary-color);
+  color: var(--primary-color);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 5px;
+}
+
+.tambola-fullscreen .control-panel button:hover {
+  background: var(--primary-color);
+  color: #000;
+  box-shadow: 0 0 15px var(--primary-color);
+}
+
+.tambola-fullscreen .tambola-board {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 5px;
+  padding: 10px;
+}
+
+.tambola-fullscreen .current-number {
+  font-size: 4em;
+  text-align: center;
+  margin: 10px 0;
+  color: var(--primary-color);
+  text-shadow: 0 0 20px var(--primary-color);
+}
+
+.tambola-fullscreen .number-cell {
+  font-size: 1.2em;
+  aspect-ratio: 1;
+}
+
+.tambola-fullscreen .history-title {
+  color: var(--primary-color);
+  font-size: 1.2em;
+  text-align: center;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.tambola-fullscreen .history-row {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 5px;
+  border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+.tambola-fullscreen .history-number {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 255, 255, 0.1);
+  border: 1px solid var(--primary-color);
+  border-radius: 5px;
+  color: #fff;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 1.2em;
+}
+
+.tambola-fullscreen .history-number.latest {
+  background: rgba(0, 255, 255, 0.3);
+  box-shadow: 0 0 10px var(--primary-color);
+}
+
+.close-fullscreen {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  color: var(--primary-color);
+  font-size: 2em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.close-fullscreen:hover {
+  transform: scale(1.1);
+  text-shadow: 0 0 10px var(--primary-color);
 }
