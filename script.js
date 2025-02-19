@@ -473,7 +473,7 @@ function initializeChatWidget() {
 
     try {
       // Call the API
-      const response = await fetch('http://207.180.235.87:3002/chat/generate', {
+      const response = await fetch('https://207.180.235.87:3002/chat/generate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
