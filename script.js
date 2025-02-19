@@ -478,11 +478,11 @@ function initializeChatWidget() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ message: message })
+        body: JSON.stringify({ prompt: message }) // Changed from message to prompt
       });
 
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const data = await response.json();
@@ -490,13 +490,10 @@ function initializeChatWidget() {
       // Remove loading message
       chatMessages.removeChild(loadingDiv);
 
-      // Extract the message from the response
-      const botResponse = data.message || "Sorry, I couldn't process that.";
-
       // Add bot response
       const botMessageDiv = document.createElement('div');
       botMessageDiv.className = 'message bot';
-      botMessageDiv.innerHTML = `<div class="message-content">${botResponse}</div>`;
+      botMessageDiv.innerHTML = `<div class="message-content">${data.message}</div>`;
       chatMessages.appendChild(botMessageDiv);
 
     } catch (error) {
