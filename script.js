@@ -490,10 +490,13 @@ function initializeChatWidget() {
       // Remove loading message
       chatMessages.removeChild(loadingDiv);
 
+      // Extract the message from the response
+      const botResponse = data.message || "Sorry, I couldn't process that.";
+
       // Add bot response
       const botMessageDiv = document.createElement('div');
       botMessageDiv.className = 'message bot';
-      botMessageDiv.innerHTML = `<div class="message-content">${data.response}</div>`;
+      botMessageDiv.innerHTML = `<div class="message-content">${botResponse}</div>`;
       chatMessages.appendChild(botMessageDiv);
 
     } catch (error) {
