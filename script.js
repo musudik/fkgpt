@@ -440,29 +440,102 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Update chat widget initialization
 function initializeChatWidget() {
-    const chatWidget = document.getElementById('chatWidget');
-    const chatHeader = document.querySelector('.chat-header');
-    const minimizeBtn = document.getElementById('minimizeChat');
-    
-    // Start with chat closed
-    chatWidget.classList.remove('open');
-    
-    chatHeader.addEventListener('click', (e) => {
-        if (!e.target.matches('#minimizeChat')) {
-            chatWidget.classList.toggle('open');
-            minimizeBtn.textContent = chatWidget.classList.contains('open') ? '−' : '+';
-        }
-    });
-    
-    minimizeBtn.addEventListener('click', () => {
-        chatWidget.classList.toggle('open');
-        minimizeBtn.textContent = chatWidget.classList.contains('open') ? '−' : '+';
-    });
+  const chatInput = document.getElementById('chatInput');
+  const sendButton = document.getElementById('sendMessage');
+  const chatMessages = document.getElementById('chatMessages');
+  const minimizeBtn = document.getElementById('minimizeChat');
+  const chatWidget = document.getElementById('chatWidget');
+
+  // Send message function
+  async function sendMessage() {
+    const message = chatInput.value.trim();
+    if (message === '') return;
+
+    // Add user message
+    const userMessageDiv = document.createElement('div');
+    userMessageDiv.className = 'message user';
+    userMessageDiv.innerHTML = `<div class="message-content">${message}</div>`;
+    chatMessages.appendChild(userMessageDiv);
+
+    // Clear input and disable it while waiting for response
+    chatInput.value = '';
+    chatInput.disabled = true;
+    sendButton.disabled = true;
+
+    // Add loading message
+    const loadingDiv = document.createElement('div');
+    loadingDiv.className = 'message bot';
+    loadingDiv.innerHTML = `<div class="message-content">Thinking...</div>`;
+    chatMessages.appendChild(loadingDiv);
+
+    // Auto scroll to bottom
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    try {
+      // Call the API
+      const response = await fetch('http://207.180.235.87:3002/chat/generate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: message })
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      
+      // Remove loading message
+      chatMessages.removeChild(loadingDiv);
+
+      // Add bot response
+      const botMessageDiv = document.createElement('div');
+      botMessageDiv.className = 'message bot';
+      botMessageDiv.innerHTML = `<div class="message-content">${data.response}</div>`;
+      chatMessages.appendChild(botMessageDiv);
+
+    } catch (error) {
+      // Remove loading message
+      chatMessages.removeChild(loadingDiv);
+
+      // Add error message
+      const errorDiv = document.createElement('div');
+      errorDiv.className = 'message bot error';
+      errorDiv.innerHTML = `<div class="message-content">Sorry, I encountered an error. Please try again.</div>`;
+      chatMessages.appendChild(errorDiv);
+      console.error('Error:', error);
+    }
+
+    // Re-enable input and button
+    chatInput.disabled = false;
+    sendButton.disabled = false;
+    chatInput.focus();
+
+    // Auto scroll to bottom
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  // Event listeners
+  sendButton.addEventListener('click', sendMessage);
+
+  chatInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+
+  minimizeBtn.addEventListener('click', () => {
+    chatWidget.classList.toggle('minimized');
+    minimizeBtn.textContent = chatWidget.classList.contains('minimized') ? '+' : '−';
+  });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    initializeChatWidget();
-    // ... rest of your initialization code
+  initializeChatWidget();
+  // ... rest of your initialization code
 });
 
 document.addEventListener('DOMContentLoaded', () => {
