@@ -447,43 +447,43 @@ function initializeChatWidget() {
   const chatMessages = document.getElementById('chatMessages');
   const minimizeBtn = document.getElementById('minimizeChat');
 
-  // Send message function
-  async function sendMessage(e) {
-    // Prevent default button behavior
-    e.preventDefault();
-    e.stopPropagation(); // Stop event from bubbling up
+  // Modified sendMessage function to work on all devices
+  async function sendMessage(event) {
+    // If event exists, prevent default behavior
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
 
     const message = chatInput.value.trim();
     if (message === '') return;
 
-    // Add user message
-    const userMessageDiv = document.createElement('div');
-    userMessageDiv.className = 'message user';
-    userMessageDiv.innerHTML = `<div class="message-content">${message}</div>`;
-    chatMessages.appendChild(userMessageDiv);
-
-    // Clear input and disable it while waiting for response
-    chatInput.value = '';
-    chatInput.disabled = true;
-    sendButton.disabled = true;
-
-    // Add loading message
-    const loadingDiv = document.createElement('div');
-    loadingDiv.className = 'message bot';
-    loadingDiv.innerHTML = `<div class="message-content">Thinking...</div>`;
-    chatMessages.appendChild(loadingDiv);
-
-    // Auto scroll to bottom
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-
     try {
-      // Call the API with the correct HTTPS URL
+      // Add user message
+      const userMessageDiv = document.createElement('div');
+      userMessageDiv.className = 'message user';
+      userMessageDiv.innerHTML = `<div class="message-content">${message}</div>`;
+      chatMessages.appendChild(userMessageDiv);
+
+      // Clear input and disable controls
+      chatInput.value = '';
+      chatInput.disabled = true;
+      sendButton.disabled = true;
+
+      // Add loading message
+      const loadingDiv = document.createElement('div');
+      loadingDiv.className = 'message bot';
+      loadingDiv.innerHTML = `<div class="message-content">Thinking...</div>`;
+      chatMessages.appendChild(loadingDiv);
+
+      // Auto scroll
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+
+      // API call
       const response = await fetch('https://207.180.235.87/chat/generate', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Access-Control-Allow-Origin': '*'
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({ prompt: message })
       });
@@ -505,26 +505,36 @@ function initializeChatWidget() {
 
     } catch (error) {
       console.error('Error:', error);
-      // Remove loading message
-      chatMessages.removeChild(loadingDiv);
-
-      // Add error message
       const errorDiv = document.createElement('div');
       errorDiv.className = 'message bot error';
-      errorDiv.innerHTML = `<div class="message-content">Sorry, I encountered an error. Please try again. + ${error}</div>`;
+      errorDiv.innerHTML = `<div class="message-content">Sorry, I encountered an error. Please try again.</div>`;
       chatMessages.appendChild(errorDiv);
+    } finally {
+      // Re-enable controls
+      chatInput.disabled = false;
+      sendButton.disabled = false;
+      chatInput.focus();
+      chatMessages.scrollTop = chatMessages.scrollHeight;
     }
-
-    // Re-enable input and button
-    chatInput.disabled = false;
-    sendButton.disabled = false;
-    chatInput.focus();
-
-    // Auto scroll to bottom
-    chatMessages.scrollTop = chatMessages.scrollHeight;
   }
 
-  // Toggle chat widget when icon is clicked
+  // Event Listeners
+  sendButton.addEventListener('click', function(e) {
+    sendMessage(e);
+  });
+
+  chatInput.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      sendMessage(e);
+    }
+  });
+
+  // Touch event for mobile
+  sendButton.addEventListener('touchend', function(e) {
+    sendMessage(e);
+  });
+
+  // Chat widget toggle
   chatIcon.addEventListener('click', (e) => {
     e.stopPropagation();
     chatWidget.classList.toggle('show');
@@ -533,28 +543,9 @@ function initializeChatWidget() {
     }
   });
 
-  // Close chat when clicking outside
-  document.addEventListener('click', (e) => {
-    if (!chatWidget.contains(e.target) && 
-        !chatIcon.contains(e.target) && 
-        chatWidget.classList.contains('show')) {
-      chatWidget.classList.remove('show');
-    }
-  });
-
   // Prevent chat closing when clicking inside
   chatWidget.addEventListener('click', (e) => {
     e.stopPropagation();
-  });
-
-  // Event listeners
-  sendButton.addEventListener('click', sendMessage);
-
-  chatInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      sendMessage(e);
-    }
   });
 
   minimizeBtn.addEventListener('click', (e) => {
@@ -564,7 +555,7 @@ function initializeChatWidget() {
   });
 }
 
-// Add to your DOMContentLoaded event
+// Initialize on DOM load
 document.addEventListener('DOMContentLoaded', () => {
   initializeChatWidget();
 });
