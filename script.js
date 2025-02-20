@@ -440,11 +440,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Update chat widget initialization
 function initializeChatWidget() {
+  const chatIcon = document.querySelector('.chat-bot-icon');
+  const chatWidget = document.getElementById('chatWidget');
+  
+  // Toggle chat widget when icon is clicked
+  chatIcon.addEventListener('click', () => {
+    chatWidget.classList.toggle('show');
+    if (chatWidget.classList.contains('show')) {
+      document.getElementById('chatInput').focus();
+    }
+  });
+
+  // Close chat when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!chatWidget.contains(e.target) && 
+        !chatIcon.contains(e.target) && 
+        chatWidget.classList.contains('show')) {
+      chatWidget.classList.remove('show');
+    }
+  });
+
   const chatInput = document.getElementById('chatInput');
   const sendButton = document.getElementById('sendMessage');
   const chatMessages = document.getElementById('chatMessages');
   const minimizeBtn = document.getElementById('minimizeChat');
-  const chatWidget = document.getElementById('chatWidget');
 
   // Send message function
   async function sendMessage() {

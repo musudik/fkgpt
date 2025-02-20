@@ -1179,17 +1179,85 @@ body {
   min-width: 200px;
 }
 
-/* Add/Update chat widget styles */
-.chat-widget {
+/* Add floating chatbot icon styles */
+.chat-bot-icon {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  width: 300px;
+  width: 60px;
+  height: 60px;
+  background: rgba(0, 0, 0, 0.8);
+  border: 2px solid var(--primary-color);
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.chat-bot-icon:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+}
+
+.chat-bot-icon img {
+  width: 135px; 
+  height: 135px;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.1);
+    filter: brightness(1.2);
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+}
+
+/* Update chat widget to be hidden by default */
+.chat-widget {
+  display: none;
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
   background: rgba(0, 0, 0, 0.9);
   border: 1px solid var(--primary-color);
-  border-radius: 10px;
-  z-index: 1000;
-  transition: all 0.3s ease;
+  border-radius: 2px;
+  z-index: 999;
+}
+
+.chat-widget.show {
+  display: block;
+  animation: slideUp 0.3s ease;
+}
+
+.chat-title {
+  font-size: 1.2em;
+  color: #0ff;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+  padding: 10px;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .chat-messages {
