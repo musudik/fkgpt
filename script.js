@@ -477,8 +477,8 @@ function initializeChatWidget() {
     chatMessages.scrollTop = chatMessages.scrollHeight;
 
     try {
-      // Call the API with updated message format and proper headers
-      const response = await fetch('http://207.180.235.87/chat/generate', {
+      // Call the API with the correct HTTPS URL
+      const response = await fetch('https://207.180.235.87/chat/generate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
