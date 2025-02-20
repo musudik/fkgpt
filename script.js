@@ -511,7 +511,7 @@ function initializeChatWidget() {
       // Add error message
       const errorDiv = document.createElement('div');
       errorDiv.className = 'message bot error';
-      errorDiv.innerHTML = `<div class="message-content">Sorry, I encountered an error. Please try again.</div>`;
+      errorDiv.innerHTML = `<div class="message-content">Sorry, I encountered an error. Please try again. + ${error}</div>`;
       chatMessages.appendChild(errorDiv);
     }
 
