@@ -442,31 +442,17 @@ document.addEventListener('DOMContentLoaded', () => {
 function initializeChatWidget() {
   const chatIcon = document.querySelector('.chat-bot-icon');
   const chatWidget = document.getElementById('chatWidget');
-  
-  // Toggle chat widget when icon is clicked
-  chatIcon.addEventListener('click', () => {
-    chatWidget.classList.toggle('show');
-    if (chatWidget.classList.contains('show')) {
-      document.getElementById('chatInput').focus();
-    }
-  });
-
-  // Close chat when clicking outside
-  document.addEventListener('click', (e) => {
-    if (!chatWidget.contains(e.target) && 
-        !chatIcon.contains(e.target) && 
-        chatWidget.classList.contains('show')) {
-      chatWidget.classList.remove('show');
-    }
-  });
-
   const chatInput = document.getElementById('chatInput');
   const sendButton = document.getElementById('sendMessage');
   const chatMessages = document.getElementById('chatMessages');
   const minimizeBtn = document.getElementById('minimizeChat');
 
   // Send message function
-  async function sendMessage() {
+  async function sendMessage(e) {
+    // Prevent default button behavior
+    e.preventDefault();
+    e.stopPropagation(); // Stop event from bubbling up
+
     const message = chatInput.value.trim();
     if (message === '') return;
 
@@ -491,13 +477,15 @@ function initializeChatWidget() {
     chatMessages.scrollTop = chatMessages.scrollHeight;
 
     try {
-      // Call the API
-      const response = await fetch('https://207.180.235.87/chat/generate', {
+      // Call the API with updated message format and proper headers
+      const response = await fetch('http://207.180.235.87/chat/generate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Access-Control-Allow-Origin': '*'
         },
-        body: JSON.stringify({ prompt: message }) // Changed from message to prompt
+        body: JSON.stringify({ prompt: message })
       });
 
       if (!response.ok) {
@@ -516,6 +504,7 @@ function initializeChatWidget() {
       chatMessages.appendChild(botMessageDiv);
 
     } catch (error) {
+      console.error('Error:', error);
       // Remove loading message
       chatMessages.removeChild(loadingDiv);
 
@@ -524,7 +513,6 @@ function initializeChatWidget() {
       errorDiv.className = 'message bot error';
       errorDiv.innerHTML = `<div class="message-content">Sorry, I encountered an error. Please try again.</div>`;
       chatMessages.appendChild(errorDiv);
-      console.error('Error:', error);
     }
 
     // Re-enable input and button
@@ -536,25 +524,49 @@ function initializeChatWidget() {
     chatMessages.scrollTop = chatMessages.scrollHeight;
   }
 
+  // Toggle chat widget when icon is clicked
+  chatIcon.addEventListener('click', (e) => {
+    e.stopPropagation();
+    chatWidget.classList.toggle('show');
+    if (chatWidget.classList.contains('show')) {
+      chatInput.focus();
+    }
+  });
+
+  // Close chat when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!chatWidget.contains(e.target) && 
+        !chatIcon.contains(e.target) && 
+        chatWidget.classList.contains('show')) {
+      chatWidget.classList.remove('show');
+    }
+  });
+
+  // Prevent chat closing when clicking inside
+  chatWidget.addEventListener('click', (e) => {
+    e.stopPropagation();
+  });
+
   // Event listeners
   sendButton.addEventListener('click', sendMessage);
 
   chatInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      sendMessage();
+      sendMessage(e);
     }
   });
 
-  minimizeBtn.addEventListener('click', () => {
+  minimizeBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
     chatWidget.classList.toggle('minimized');
     minimizeBtn.textContent = chatWidget.classList.contains('minimized') ? '+' : '−';
   });
 }
 
+// Add to your DOMContentLoaded event
 document.addEventListener('DOMContentLoaded', () => {
   initializeChatWidget();
-  // ... rest of your initialization code
 });
 
 document.addEventListener('DOMContentLoaded', () => {
