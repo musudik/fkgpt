@@ -504,6 +504,7 @@ function initializeChatWidget() {
       chatMessages.appendChild(botMessageDiv);
 
     } catch (error) {
+      alert(error);
       console.error('Error:', error);
       const errorDiv = document.createElement('div');
       errorDiv.className = 'message bot error';
