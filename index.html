@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FK.GPT</title>
+  <title>FK.GPT - Professional Web Development & Hosting Services</title>
+  <meta name="description" content="Professional web development, hosting, and digital solutions with cutting-edge AI technology">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
@@ -12,8 +13,6 @@
 </head>
 <body>
   <canvas id="smokeCanvas"></canvas>
-
-  
   
   <div class="neon-circuit">
     <div class="circuit-node" style="top: 10%; left: 15%"></div>
@@ -22,289 +21,613 @@
     <div class="circuit-node" style="top: 90%; left: 75%"></div>
   </div>
 
-  
-
   <nav class="navbar">
-    <div class="nav-links">
-      <a href="index.html">Home</a>
-      <div class="dropdown">
-        <a href="#" class="dropdown-trigger">Apps</a>
-        <!-- <div class="dropdown-content">
-          <a href="tambola.html">Tambola</a>
-        </div> -->
+    <div class="nav-container">
+      <div class="nav-logo">
+        <img src="images/FKGPT.gif" alt="FK.GPT" width="40" height="40">
+        <span></span>
       </div>
-      <a href="#">About</a>
-      <a href="#">Contact</a>
+      <div class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#services">Services</a>
+        <a href="#utilities" id="utilities-link">Utilities</a>
+        <a href="#portfolio">Portfolio</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="nav-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
     </div>
   </nav>
 
-  
-  <section class="hero">
+  <section id="home" class="hero">
+    <!-- Holographic Grid Background -->
+    <div class="holographic-grid"></div>
+    
+    <!-- Central Brain Effect -->
+    <div class="central-brain">
+      <div class="brain-core">
+        <i class="fas fa-brain"></i>
+      </div>
+      <div class="brain-rays"></div>
+      <div class="brain-glow"></div>
+    </div>
+    
+    <!-- Left Side Code Snippets with Typewriter Effect -->
+    <div class="code-lines-container">
+      <!-- 5 Lines Group -->
+      <div class="code-group group-5">
+        <div class="code-line python" data-text='print("Hello, World!")'>print("Hello, World!")</div>
+        <div class="code-line python" data-text="def greet(name):">def greet(name):</div>
+        <div class="code-line python" data-text='    return f"Hello, {name}!"'>    return f"Hello, {name}!"</div>
+        <div class="code-line python" data-text="if __name__ == '__main__':">if __name__ == '__main__':</div>
+        <div class="code-line python" data-text='    greet("World")'>    greet("World")</div>
+      </div>
+      
+      <!-- 4 Lines Group -->
+      <div class="code-group group-4">
+        <div class="code-line java" data-text="public class HelloWorld {">public class HelloWorld {</div>
+        <div class="code-line java" data-text="  public static void main(String[] args) {">  public static void main(String[] args) {</div>
+        <div class="code-line java" data-text='    System.out.println("Hello, World!");'>    System.out.println("Hello, World!");</div>
+        <div class="code-line java" data-text="  }">  }</div>
+      </div>
+      
+      <!-- 6 Lines Group -->
+      <div class="code-group group-6">
+        <div class="code-line cpp" data-text="#include <iostream>">#include &lt;iostream&gt;</div>
+        <div class="code-line cpp" data-text="using namespace std;">using namespace std;</div>
+        <div class="code-line cpp" data-text="int main() {">int main() {</div>
+        <div class="code-line cpp" data-text='    cout << "Hello, World!" << endl;'>    cout &lt;&lt; "Hello, World!" &lt;&lt; endl;</div>
+        <div class="code-line cpp" data-text="    return 0;">    return 0;</div>
+        <div class="code-line cpp" data-text="}">}</div>
+      </div>
+      
+      <!-- 3 Lines Group -->
+      <div class="code-group group-3">
+        <div class="code-line javascript" data-text="function hello() {">function hello() {</div>
+        <div class="code-line javascript" data-text='  console.log("Hello, World!");'>  console.log("Hello, World!");</div>
+        <div class="code-line javascript" data-text="}">}</div>
+      </div>
+      
+      <!-- 5 Lines Group -->
+      <div class="code-group group-5-alt">
+        <div class="code-line go" data-text="package main">package main</div>
+        <div class="code-line go" data-text='import "fmt"'>import "fmt"</div>
+        <div class="code-line go" data-text="func main() {">func main() {</div>
+        <div class="code-line go" data-text='    fmt.Println("Hello, World!")'>    fmt.Println("Hello, World!")</div>
+        <div class="code-line go" data-text="}">}</div>
+      </div>
+    </div>
+    
+    <!-- 3D Solar System with AI-themed Icons -->
+    <div class="solar-system-3d">
+      <!-- Mercury - Smallest, fastest -->
+      <div class="orbit-3d orbit-mercury">
+        <div class="planet-3d planet-mercury"><i class="fas fa-microchip"></i></div>
+      </div>
+      <!-- Venus -->
+      <div class="orbit-3d orbit-venus">
+        <div class="planet-3d planet-venus"><i class="fas fa-robot"></i></div>
+      </div>
+      <!-- Earth -->
+      <div class="orbit-3d orbit-earth">
+        <div class="planet-3d planet-earth"><i class="fas fa-network-wired"></i></div>
+      </div>
+      <!-- Mars -->
+      <div class="orbit-3d orbit-mars">
+        <div class="planet-3d planet-mars"><i class="fas fa-database"></i></div>
+      </div>
+      <!-- Jupiter - Largest -->
+      <div class="orbit-3d orbit-jupiter">
+        <div class="planet-3d planet-jupiter"><i class="fas fa-server"></i></div>
+      </div>
+      <!-- Saturn -->
+      <div class="orbit-3d orbit-saturn">
+        <div class="planet-3d planet-saturn"><i class="fas fa-cogs"></i></div>
+      </div>
+      <!-- Uranus -->
+      <div class="orbit-3d orbit-uranus">
+        <div class="planet-3d planet-uranus"><i class="fas fa-code"></i></div>
+      </div>
+      <!-- Neptune -->
+      <div class="orbit-3d orbit-neptune">
+        <div class="planet-3d planet-neptune"><i class="fas fa-cpu"></i></div>
+      </div>
+      <!-- Pluto - Smallest, slowest -->
+      <div class="orbit-3d orbit-pluto">
+        <div class="planet-3d planet-pluto"><i class="fas fa-memory"></i></div>
+      </div>
+    </div>
+    
+    <!-- Robotic Hand -->
+    <div class="robotic-hand">
+      <svg class="hand-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20 80 L25 70 L30 60 L35 50 L40 45 L45 40 L50 35 L55 30 L60 25 L65 20" 
+              stroke="#00ffff" stroke-width="3" stroke-linecap="round"/>
+        <path d="M25 70 L30 65 L35 60 L40 55 L45 50" 
+              stroke="#00ffff" stroke-width="2" stroke-linecap="round"/>
+        <path d="M30 60 L35 55 L40 50 L45 45" 
+              stroke="#00ffff" stroke-width="2" stroke-linecap="round"/>
+        <path d="M35 50 L40 45 L45 40" 
+              stroke="#00ffff" stroke-width="2" stroke-linecap="round"/>
+        <path d="M40 45 L45 40 L50 35" 
+              stroke="#00ffff" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="20" cy="80" r="3" fill="#00ffff"/>
+        <circle cx="65" cy="20" r="3" fill="#00ffff"/>
+      </svg>
+    </div>
+    
+    <!-- Deploy Button -->
+    <button class="deploy-button">DEPLOY</button>
+    
+    <!-- Website Preview -->
+    <!-- <div class="website-preview">
+      <div style="width: 100%; height: 20%; background: linear-gradient(90deg, #00ffff, #0080ff); border-radius: 8px 8px 0 0;"></div>
+      <div style="padding: 20px; color: #00ffff; font-size: 12px;">
+        <div style="width: 80%; height: 10px; background: #00ffff; margin: 5px 0; border-radius: 2px;"></div>
+        <div style="width: 60%; height: 8px; background: #0080ff; margin: 5px 0; border-radius: 2px;"></div>
+        <div style="width: 90%; height: 8px; background: #00ff80; margin: 5px 0; border-radius: 2px;"></div>
+      </div>
+    </div> -->
+    
+    <!-- Cloud Network -->
+    <div class="cloud-network">
+      <div class="cloud"></div>
+      <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #00ffff; font-size: 12px; font-weight: bold;">CLOUD</div>
+    </div>
+    
+    <!-- Enhanced Data Particles -->
+    <div class="data-particle" style="top: 60%; left: 40%; animation-delay: 0s;"></div>
+    <div class="data-particle" style="top: 65%; left: 45%; animation-delay: 0.5s;"></div>
+    <div class="data-particle" style="top: 70%; left: 50%; animation-delay: 1s;"></div>
+    <div class="data-particle" style="top: 75%; left: 55%; animation-delay: 1.5s;"></div>
+    <div class="data-particle" style="top: 80%; left: 60%; animation-delay: 2s;"></div>
+    <div class="data-particle" style="top: 30%; left: 70%; animation-delay: 0.3s;"></div>
+    <div class="data-particle" style="top: 40%; left: 75%; animation-delay: 0.8s;"></div>
+    <div class="data-particle" style="top: 50%; left: 80%; animation-delay: 1.3s;"></div>
+    <div class="data-particle" style="top: 35%; left: 35%; animation-delay: 1.8s;"></div>
+    <div class="data-particle" style="top: 45%; left: 25%; animation-delay: 2.3s;"></div>
+    <div class="data-particle" style="top: 55%; left: 15%; animation-delay: 2.8s;"></div>
+    <div class="data-particle" style="top: 25%; left: 85%; animation-delay: 0.2s;"></div>
+    <div class="data-particle" style="top: 85%; left: 25%; animation-delay: 1.2s;"></div>
+    <div class="data-particle" style="top: 15%; left: 65%; animation-delay: 2.2s;"></div>
+    <div class="data-particle" style="top: 90%; left: 45%; animation-delay: 0.7s;"></div>
+    
+    <!-- Digital Streaming Lines -->
+    <div class="digital-stream" style="top: 20%; left: 0%; width: 100%; height: 2px;"></div>
+    <div class="digital-stream" style="top: 40%; left: 0%; width: 100%; height: 1px;"></div>
+    <div class="digital-stream" style="top: 60%; left: 0%; width: 100%; height: 2px;"></div>
+    <div class="digital-stream" style="top: 80%; left: 0%; width: 100%; height: 1px;"></div>
+    
+    <!-- Matrix Digital Rain -->
+    <div class="matrix-rain" style="left: 10%;"></div>
+    <div class="matrix-rain" style="left: 25%;"></div>
+    <div class="matrix-rain" style="left: 40%;"></div>
+    <div class="matrix-rain" style="left: 55%;"></div>
+    <div class="matrix-rain" style="left: 70%;"></div>
+    <div class="matrix-rain" style="left: 85%;"></div>
+
     <div class="hero-content">
-        <img src="images/FKGPT.gif" alt="FK.GPT Logo" width="200" height="200">
-      <p class="hero-subtitle">The Ultimate AI Playground – Smart, Fun, and Futuristic!</p>
-      <!-- <div class="cta-buttons">
-        <a href="#" class="cta">Get Started</a>
-        <a href="#" class="cta">Learn More</a>
-      </div> -->
+      <div class="profile-container">
+        <div class="profile-info">
+          <h1 class="profile-name">FKGPT.DEV</h1>
+          <p class="profile-title">Full-Stack Developer & AI Solutions Architect</p>
+          <p class="hero-subtitle">Transforming ideas into digital reality with cutting-edge web development, hosting solutions, and AI-powered applications.</p>
+          
+          <div class="service-highlights">
+            <div class="highlight-item">
+              <i class="fas fa-code"></i>
+              <span>Custom Web Development</span>
+            </div>
+            <div class="highlight-item">
+              <i class="fas fa-server"></i>
+              <span>Cloud Hosting Solutions</span>
+            </div>
+            <div class="highlight-item">
+              <i class="fas fa-robot"></i>
+              <span>AI Integration</span>
+            </div>
+          </div>
+
+          <div class="cta-buttons">
+            <a href="#services" class="cta primary">View Services</a>
+            <a href="#contact" class="cta secondary">Get Quote</a>
+            <a href="https://wa.me/4917644417602" class="cta whatsapp" target="_blank">
+              <i class="fab fa-whatsapp"></i> WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Right Side Portfolio Links -->
+    <div class="right-side-portfolio">
+      <div class="portfolio-links">
+        <a href="https://github.com/yourusername" target="_blank" class="portfolio-link">
+          <i class="fab fa-github"></i> GitHub Portfolio
+        </a>
+        <a href="https://yourportfolio.com" target="_blank" class="portfolio-link">
+          <i class="fas fa-globe"></i> Live Projects
+        </a>
+      </div>
     </div>
   </section>
-  
   <div class="ticker-section">
     <div class="ticker-container">
-        <div class="ticker-wrapper">
-            <div class="ticker-text"></div>
-        </div>
+      <div class="ticker-wrapper">
+        <div class="ticker-text"></div>
+      </div>
     </div>
   </div>
-
-  <section class="apps">
-    <h2 class="section-title">Cyber Play</h2>
-    
-    <div class="app-grid">
-      <div class="app-card">
-        <div class="help-icon">
-          <i class="fas fa-question-circle"></i>
-        </div>
-        <div class="app-icon">
-          <i class="fas fa-robot fa-3x"></i>
-        </div>
-        <h3 class="app-name">Random Name Generator</h3>
-        <span class="app-category">Click the button to generate</span>
-        <div class="generated-name" id="generatedName"></div>
-        <button id="generateBtn" class="neon-button">Generate Name</button>
-        <div class="app-description-overlay">
-          <p class="typing-text"></p>
-        </div>
-      </div>
-      <div class="app-card">
-        <div class="restart-game-toggle">
-          <i class="fas fa-redo"></i>
-        </div>
-        <div class="app-icon">
-          <i class="fas fa-th fa-3x"></i>
-        </div>
-        <h3 class="app-name">Digital Tambola</h3>
-        <div class="tambola-container">
-          <div class="current-number">
-            <span id="currentNumber">--</span>
+  <section id="services" class="services-section">
+    <div class="container">
+      <h2 class="section-title">Professional Services</h2>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">
+            <i class="fas fa-laptop-code"></i>
           </div>
-          <div class="number-history">
-            Last 5: <span id="numberHistory"></span>
-          </div>
-          <button id="drawNumber" class="neon-button">Draw Number</button>
-          <div class="tambola-board">
-            <!-- Numbers will be generated by JS -->
-          </div>
-        </div>
-      </div>
-      <div class="app-card">
-        <h3 class="app-name">Toss it up</h3>
-        <div class="coin-container">
-          <div class="coin" id="coin">
-            <div class="heads">
-              <i class="fas fa-brain"></i>
-            </div>
-            <div class="tails">
-              <i class="fas fa-microchip"></i>
-            </div>
-          </div>
-        </div>
-        <button id="flip-button" class="neon-button">FLIP COIN</button>
-        <br/>
-        <p id="flip-result" class="flip-result"></p>
-        <div class="app-description-overlay">
-          <p class="typing-text"></p>
-        </div>
-      </div>
-      <!-- Second App Card - World Clocks -->
-    <div class="app-card">
-      <h3 class="app-name">World Clock</h3>
-      <div class="add-clock-toggle">
-        <i class="fas fa-plus"></i>
-      </div>
-      <div class="timezone-clocks">
-        <div class="clock-container">
-          <div class="clock">
-            <div class="clock-face">
-              <div class="hand hour-hand"></div>
-              <div class="hand minute-hand"></div>
-              <div class="hand second-hand"></div>
-              <div class="center-dot"></div>
-            </div>
-          </div>
-          <div class="city-name">Tokyo</div>
-          <div class="time-display"></div>
-        </div>
-    
-        <div class="clock-container">
-          <div class="clock">
-            <div class="clock-face">
-              <div class="hand hour-hand"></div>
-              <div class="hand minute-hand"></div>
-              <div class="hand second-hand"></div>
-              <div class="center-dot"></div>
-            </div>
-          </div>
-          <div class="city-name">Mumbai</div>
-          <div class="time-display"></div>
+          <h3>Web Development</h3>
+          <p>Custom websites and web applications built with modern technologies like React, Node.js, and Python.</p>
+          <ul class="service-features">
+            <li>Responsive Design</li>
+            <li>SEO Optimized</li>
+            <li>Performance Focused</li>
+            <li>Modern Frameworks</li>
+          </ul>
+          <div class="service-price">Starting at €500</div>
         </div>
 
-        <div class="clock-container">
-          <div class="clock">
-            <div class="clock-face">
-              <div class="hand hour-hand"></div>
-              <div class="hand minute-hand"></div>
-              <div class="hand second-hand"></div>
-              <div class="center-dot"></div>
-            </div>
+        <div class="service-card">
+          <div class="service-icon">
+            <i class="fas fa-cloud"></i>
           </div>
-          <div class="city-name">London</div>
-          <div class="time-display"></div>
+          <h3>Hosting & Deployment</h3>
+          <p>Reliable cloud hosting solutions with 99.9% uptime, SSL certificates, and automated backups.</p>
+          <ul class="service-features">
+            <li>Cloud Infrastructure</li>
+            <li>SSL Certificates</li>
+            <li>Daily Backups</li>
+            <li>24/7 Monitoring</li>
+          </ul>
+          <div class="service-price">From €15/month</div>
         </div>
-    
-        <div class="clock-container">
-          <div class="clock">
-            <div class="clock-face">
-              <div class="hand hour-hand"></div>
-              <div class="hand minute-hand"></div>
-              <div class="hand second-hand"></div>
-              <div class="center-dot"></div>
-            </div>
+
+        <div class="service-card">
+          <div class="service-icon">
+            <i class="fas fa-robot"></i>
           </div>
-          <div class="city-name">New York</div>
-          <div class="time-display"></div>
+          <h3>AI Integration</h3>
+          <p>Integrate AI chatbots, automation tools, and machine learning capabilities into your applications.</p>
+          <ul class="service-features">
+            <li>Custom AI Chatbots</li>
+            <li>Process Automation</li>
+            <li>Data Analytics</li>
+            <li>API Integration</li>
+          </ul>
+          <div class="service-price">Custom Quote</div>
         </div>
-    
-        <div class="clock-controls">
-          <div class="timezone-select-wrapper">
-            <input type="text" id="timezone-search" class="neon-input" placeholder="Search timezone...">
-            <select id="timezone-select" class="neon-dropdown" size="5">
-              <option value="">Select a timezone...</option>
-            </select>
+
+        <!-- <div class="service-card">
+          <div class="service-icon">
+            <i class="fas fa-mobile-alt"></i>
           </div>
-          <button id="add-clock" class="clock-neon-button">Add Clock</button>
-        </div>
+          <h3>Mobile Development</h3>
+          <p>Cross-platform mobile applications for iOS and Android using React Native and Flutter.</p>
+          <ul class="service-features">
+            <li>Cross-Platform</li>
+            <li>Native Performance</li>
+            <li>App Store Deployment</li>
+            <li>Maintenance Support</li>
+          </ul>
+          <div class="service-price">Starting at €800</div>
+        </div> -->
       </div>
-    </div>
-      
     </div>
   </section>
 
   
-  
 
-  <section class="apps">
-    <h2 class="section-title">Our Apps</h2>
-    <div class="app-grid">
-      <div class="app-card">
-        <div class="app-icon">
-          <i class="fa-solid fa-gamepad"></i>
+  <section id="utilities" class="apps">
+    <div class="container">
+      <h2 class="section-title">Digital Utilities</h2>
+      
+      <div class="app-grid">
+        <div class="app-card">
+          <div class="help-icon">
+            <i class="fas fa-question-circle"></i>
+          </div>
+          <div class="app-icon">
+            <i class="fas fa-robot fa-3x"></i>
+          </div>
+          <h3 class="app-name">Random Name Generator</h3>
+          <span class="app-category">Creative Tool</span>
+          <div class="generated-name" id="generatedName">Click to generate</div>
+          <button id="generateBtn" class="neon-button">Generate Name</button>
         </div>
-        <h3 class="app-name">AI Chat</h3>
-        <span class="app-category">Communication</span>
-        <p class="app-description">Revolutionary AI-powered chat with natural language understanding.</p>
-        <a href="#" class="app-link">Learn More →</a>
+
+        <div class="app-card">
+          <div class="restart-game-toggle">
+            <i class="fas fa-redo"></i>
+          </div>
+          <div class="app-icon">
+            <i class="fas fa-th fa-3x"></i>
+          </div>
+          <h3 class="app-name">Digital Tambola</h3>
+          <span class="app-category">Entertainment</span>
+          <div class="tambola-container">
+            <div class="current-number">
+              <span id="currentNumber">--</span>
+            </div>
+            <div class="number-history">
+              Last 5: <span id="numberHistory"></span>
+            </div>
+            <button id="drawNumber" class="neon-button">Draw Number</button>
+            <div class="tambola-board">
+              <!-- Numbers will be generated by JS -->
+            </div>
+          </div>
+        </div>
+
+        <div class="app-card">
+          <div class="help-icon">
+            <i class="fas fa-question-circle"></i>
+          </div>
+          <div class="app-icon">
+            <i class="fas fa-coins fa-3x"></i>
+          </div>
+          <h3 class="app-name">Coin Flip</h3>
+          <span class="app-category">Decision Tool</span>
+          <div class="coin-container">
+            <div class="coin" id="coin">
+              <div class="heads">
+                <i class="fas fa-brain"></i>
+              </div>
+              <div class="tails">
+                <i class="fas fa-microchip"></i>
+              </div>
+            </div>
+          </div>
+          <button id="flip-button" class="neon-button">FLIP COIN</button>
+          <p id="flip-result" class="flip-result"></p>
+        </div>
+
+        <div class="app-card">
+          <div class="add-clock-toggle">
+            <i class="fas fa-plus"></i>
+          </div>
+          <div class="app-icon">
+            <i class="fas fa-clock fa-3x"></i>
+          </div>
+          <h3 class="app-name">World Clock</h3>
+          <span class="app-category">Productivity</span>
+          <div class="timezone-clocks">
+            <div class="clock-container">
+              <div class="clock">
+                <div class="clock-face">
+                  <div class="hand hour-hand"></div>
+                  <div class="hand minute-hand"></div>
+                  <div class="hand second-hand"></div>
+                  <div class="center-dot"></div>
+                </div>
+              </div>
+              <div class="city-name">Tokyo</div>
+              <div class="time-display"></div>
+            </div>
+            
+            <div class="clock-container">
+              <div class="clock">
+                <div class="clock-face">
+                  <div class="hand hour-hand"></div>
+                  <div class="hand minute-hand"></div>
+                  <div class="hand second-hand"></div>
+                  <div class="center-dot"></div>
+                </div>
+              </div>
+              <div class="city-name">London</div>
+              <div class="time-display"></div>
+            </div>
+
+            <div class="clock-controls">
+              <div class="timezone-select-wrapper">
+                <input type="text" id="timezone-search" class="neon-input" placeholder="Search timezone...">
+                <select id="timezone-select" class="neon-dropdown" size="5">
+                  <option value="">Select a timezone...</option>
+                </select>
+              </div>
+              <button id="add-clock" class="clock-neon-button">Add Clock</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="app-card">
+          <div class="app-icon">
+            <i class="fas fa-calculator fa-3x"></i>
+          </div>
+          <h3 class="app-name">Smart Calculator</h3>
+          <span class="app-category">Utility</span>
+          <div class="calculator-container">
+            <div class="calc-display">
+              <input type="text" id="calcDisplay" readonly>
+            </div>
+            <div class="calc-buttons">
+              <button class="calc-btn clear">C</button>
+              <button class="calc-btn operator">±</button>
+              <button class="calc-btn operator">%</button>
+              <button class="calc-btn operator">÷</button>
+              <button class="calc-btn number">7</button>
+              <button class="calc-btn number">8</button>
+              <button class="calc-btn number">9</button>
+              <button class="calc-btn operator">×</button>
+              <button class="calc-btn number">4</button>
+              <button class="calc-btn number">5</button>
+              <button class="calc-btn number">6</button>
+              <button class="calc-btn operator">-</button>
+              <button class="calc-btn number">1</button>
+              <button class="calc-btn number">2</button>
+              <button class="calc-btn number">3</button>
+              <button class="calc-btn operator">+</button>
+              <button class="calc-btn number zero">0</button>
+              <button class="calc-btn number">.</button>
+              <button class="calc-btn equals">=</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="app-card">
+          <div class="app-icon">
+            <i class="fas fa-qrcode fa-3x"></i>
+          </div>
+          <h3 class="app-name">QR Generator</h3>
+          <span class="app-category">Utility</span>
+          <div class="qr-container">
+            <input type="text" id="qrInput" class="neon-input" placeholder="Enter text or URL">
+            <button id="generateQR" class="neon-button">Generate QR</button>
+            <div id="qrCode" class="qr-display"></div>
+          </div>
+        </div>
       </div>
-      <div class="app-card">
-        <div class="app-icon">
-          <i class="fas fa-chart-line fa-3x"></i>
+    </div>
+  </section>
+
+  <section id="portfolio" class="portfolio-section">
+    <div class="container">
+      <h2 class="section-title">Featured Projects</h2>
+      <div class="portfolio-grid">
+        <div class="portfolio-item">
+          <div class="portfolio-image">
+            <i class="fas fa-shopping-cart fa-4x"></i>
+          </div>
+          <div class="portfolio-content">
+            <h3>E-Commerce Platform</h3>
+            <p>Full-stack e-commerce solution with payment integration and admin dashboard.</p>
+            <div class="tech-stack">
+              <span>React</span>
+              <span>Node.js</span>
+              <span>MongoDB</span>
+            </div>
+          </div>
         </div>
-        <h3 class="app-name">Data Viz</h3>
-        <span class="app-category">Analytics</span>
-        <p class="app-description">Interactive data visualization with real-time insights.</p>
-        <a href="#" class="app-link">Learn More →</a>
-      </div>
-      <div class="app-card">
-        <div class="app-icon">
-          <i class="fas fa-cogs fa-3x"></i>
+
+        <div class="portfolio-item">
+          <div class="portfolio-image">
+            <i class="fas fa-chart-line fa-4x"></i>
+          </div>
+          <div class="portfolio-content">
+            <h3>Analytics Dashboard</h3>
+            <p>Real-time data visualization dashboard with interactive charts and reports.</p>
+            <div class="tech-stack">
+              <span>Vue.js</span>
+              <span>Python</span>
+              <span>PostgreSQL</span>
+            </div>
+          </div>
         </div>
-        <h3 class="app-name">Automate</h3>
-        <span class="app-category">Productivity</span>
-        <p class="app-description">Automate repetitive tasks with intelligent workflows.</p>
-        <a href="#" class="app-link">Learn More →</a>
-      </div>
-      <div class="app-card">
-        <div class="app-icon">
-          <i class="fas fa-shield-alt fa-3x"></i>
+
+        <div class="portfolio-item">
+          <div class="portfolio-image">
+            <i class="fas fa-mobile-alt fa-4x"></i>
+          </div>
+          <div class="portfolio-content">
+            <h3>Mobile App</h3>
+            <p>Cross-platform mobile application with offline capabilities and push notifications.</p>
+            <div class="tech-stack">
+              <span>React Native</span>
+              <span>Firebase</span>
+              <span>Redux</span>
+            </div>
+          </div>
         </div>
-        <h3 class="app-name">Secure</h3>
-        <span class="app-category">Security</span>
-        <p class="app-description">Advanced threat detection and data protection.</p>
-        <a href="#" class="app-link">Learn More →</a>
-      </div>
-      <div class="app-card">
-        <div class="app-icon">
-          <i class="fas fa-dice fa-3x"></i>
-        </div>
-        <h3 class="app-name">Digital Lucky Draw</h3>
-        <span class="app-category">Games</span>
-        <p class="app-description">Interactive digital lucky draw system for events and contests.</p>
-        <a href="#" class="app-link">Learn More →</a>
-      </div>
-      <div class="app-card">
-        <div class="app-icon">
-          <i class="fas fa-th fa-3x"></i>
-        </div>
-        <h3 class="app-name">Digital Tambola</h3>
-        <span class="app-category">Games</span>
-        <p class="app-description">Modern digital version of the classic Tambola game.</p>
-        <a href="#" class="app-link">Learn More →</a>
       </div>
     </div>
   </section>
 
   <div class="chat-bot-icon">
-    <img src="images/bot.png" width="150" height="150" alt="Chat Bot">
+    <img src="images/bot.png" width="60" height="60" alt="Chat Bot">
   </div>
 
   <div id="chatWidget" class="chat-widget">
     <div class="chat-header">
       <span class="chat-title">AI Assistant</span>
+      <button class="chat-close">×</button>
     </div>
     <div class="chat-body">
       <div class="chat-messages" id="chatMessages">
         <div class="message bot">
-          <div class="message-content">Hello! How can I assist you today?</div>
+          <div class="message-content">Hello! I'm here to help you with any questions about our services. How can I assist you today?</div>
         </div>
       </div>
       <div class="chat-input-container">
         <input type="text" id="chatInput" class="chat-input" placeholder="Type your message...">
-        <button id="sendMessage" class="chat-send-btn">Send</button>
+        <button id="sendMessage" class="chat-send-btn">
+          <i class="fas fa-paper-plane"></i>
+        </button>
       </div>
     </div>
   </div>
 
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script src="script.js"></script>
-  
-  <footer class="futuristic-footer">
+  <div class="whatsapp-float">
+    <a href="https://wa.me/4917644417602" target="_blank">
+      <i class="fab fa-whatsapp"></i>
+    </a>
+  </div>
+
+  <footer id="contact" class="futuristic-footer">
     <div class="footer-content">
       <div class="footer-section">
         <h3>FK.GPT</h3>
-        <p>Revolutionizing AI with cutting-edge technology</p>
+        <p>Professional web development and hosting services with cutting-edge AI technology.</p>
+        <div class="contact-info">
+          <p><i class="fas fa-phone"></i> +49 176 44417602</p>
+          <p><i class="fas fa-envelope"></i> contact@fkgpt.com</p>
+          <p><i class="fas fa-map-marker-alt"></i> Germany</p>
+        </div>
+      </div>
+      <div class="footer-section">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#services">Web Development</a></li>
+          <li><a href="#services">Hosting Solutions</a></li>
+          <li><a href="#services">AI Integration</a></li>
+          <li><a href="#services">Mobile Apps</a></li>
+        </ul>
       </div>
       <div class="footer-section">
         <h4>Quick Links</h4>
         <ul>
-          <li><a href="#">Home</a></li>
-          <li><a href="#">Apps</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Contact</a></li>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#utilities">Utilities</a></li>
+          <li><a href="#portfolio">Portfolio</a></li>
+          <li><a href="https://wa.me/4917644417602">Contact</a></li>
         </ul>
       </div>
       <div class="footer-section">
         <h4>Connect With Us</h4>
         <div class="social-links">
-          <a href="#" class="social-icon"><i class="fab fa-twitter fa-2x"></i></a>
-          <a href="#" class="social-icon"><i class="fab fa-linkedin fa-2x"></i></a>
-          <a href="#" class="social-icon"><i class="fab fa-github fa-2x"></i></a>
+          <a href="https://wa.me/4917644417602" class="social-icon" target="_blank">
+            <i class="fab fa-whatsapp"></i>
+          </a>
+          <a href="https://github.com/yourusername" class="social-icon" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+          <a href="https://linkedin.com/in/yourprofile" class="social-icon" target="_blank">
+            <i class="fab fa-linkedin"></i>
+          </a>
+          <a href="mailto:contact@fkgpt.com" class="social-icon">
+            <i class="fas fa-envelope"></i>
+          </a>
         </div>
       </div>
     </div>
     <div class="footer-bottom">
-      <p>&copy; 2025 FK.GPT. All rights reserved.</p>
+      <p>&copy; 2025 FK.GPT. All rights reserved. | Professional Web Development & Hosting Services</p>
     </div>
   </footer>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>

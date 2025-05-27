@@ -956,3 +956,916 @@ document.addEventListener('DOMContentLoaded', () => {
   initializeClockControls();
   // ... rest of your initialization code
 });
+
+// Mobile Navigation Toggle
+document.addEventListener('DOMContentLoaded', function() {
+  const navToggle = document.querySelector('.nav-toggle');
+  const navLinks = document.querySelector('.nav-links');
+  
+  if (navToggle) {
+    navToggle.addEventListener('click', function() {
+      navLinks.classList.toggle('active');
+    });
+  }
+
+  // Smooth scrolling for navigation links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+        // Close mobile menu if open
+        navLinks.classList.remove('active');
+      }
+    });
+  });
+
+  // Initialize Calculator
+  initializeCalculator();
+  
+  // Initialize QR Generator
+  initializeQRGenerator();
+  
+  // Enhanced Chat Widget
+  initializeEnhancedChat();
+  
+  // Initialize GSAP animations
+  initializeAnimations();
+});
+
+// Calculator Functionality
+function initializeCalculator() {
+  const display = document.getElementById('calcDisplay');
+  const buttons = document.querySelectorAll('.calc-btn');
+  let currentInput = '';
+  let operator = '';
+  let previousInput = '';
+
+  buttons.forEach(button => {
+    button.addEventListener('click', function() {
+      const value = this.textContent;
+      
+      if (this.classList.contains('clear')) {
+        currentInput = '';
+        operator = '';
+        previousInput = '';
+        display.value = '';
+      } else if (this.classList.contains('equals')) {
+        if (currentInput && operator && previousInput) {
+          const result = calculate(previousInput, operator, currentInput);
+          display.value = result;
+          currentInput = result.toString();
+          operator = '';
+          previousInput = '';
+        }
+      } else if (this.classList.contains('operator')) {
+        if (currentInput) {
+          if (value === '±') {
+            currentInput = (parseFloat(currentInput) * -1).toString();
+            display.value = currentInput;
+          } else if (value === '%') {
+            currentInput = (parseFloat(currentInput) / 100).toString();
+            display.value = currentInput;
+          } else {
+            operator = value;
+            previousInput = currentInput;
+            currentInput = '';
+          }
+        }
+      } else {
+        if (value === '.' && currentInput.includes('.')) return;
+        currentInput += value;
+        display.value = currentInput;
+      }
+    });
+  });
+
+  function calculate(a, op, b) {
+    const numA = parseFloat(a);
+    const numB = parseFloat(b);
+    
+    switch (op) {
+      case '+': return numA + numB;
+      case '-': return numA - numB;
+      case '×': return numA * numB;
+      case '÷': return numB !== 0 ? numA / numB : 'Error';
+      default: return b;
+    }
+  }
+}
+
+// QR Generator Functionality
+function initializeQRGenerator() {
+  const generateBtn = document.getElementById('generateQR');
+  const qrInput = document.getElementById('qrInput');
+  const qrDisplay = document.getElementById('qrCode');
+
+  if (generateBtn && qrInput && qrDisplay) {
+    generateBtn.addEventListener('click', function() {
+      const text = qrInput.value.trim();
+      if (text) {
+        qrDisplay.innerHTML = '';
+        QRCode.toCanvas(qrDisplay, text, {
+          width: 200,
+          height: 200,
+          colorDark: '#00ffff',
+          colorLight: '#000000',
+          margin: 2
+        }, function (error) {
+          if (error) {
+            qrDisplay.innerHTML = '<p style="color: #ff0080;">Error generating QR code</p>';
+          }
+        });
+      } else {
+        qrDisplay.innerHTML = '<p style="color: #ff0080;">Please enter text or URL</p>';
+      }
+    });
+
+    // Generate QR on Enter key
+    qrInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        generateBtn.click();
+      }
+    });
+  }
+}
+
+// Enhanced Chat Widget
+function initializeEnhancedChat() {
+  const chatIcon = document.querySelector('.chat-bot-icon');
+  const chatWidget = document.getElementById('chatWidget');
+  const chatClose = document.querySelector('.chat-close');
+  const chatInput = document.getElementById('chatInput');
+  const sendButton = document.getElementById('sendMessage');
+  const chatMessages = document.getElementById('chatMessages');
+
+  // Toggle chat widget
+  if (chatIcon) {
+    chatIcon.addEventListener('click', function() {
+      chatWidget.style.display = chatWidget.style.display === 'flex' ? 'none' : 'flex';
+    });
+  }
+
+  // Close chat widget
+  if (chatClose) {
+    chatClose.addEventListener('click', function() {
+      chatWidget.style.display = 'none';
+    });
+  }
+
+  // Enhanced send message function
+  async function sendMessage(e) {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    
+    const message = chatInput.value.trim();
+    if (!message) return;
+
+    // Add user message to chat
+    addMessageToChat(message, true);
+    chatInput.value = '';
+
+    // Show typing indicator
+    const typingIndicator = addTypingIndicator();
+
+    try {
+      const response = await fetch('https://207.180.235.87/chat/generate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ prompt: message }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      
+      // Remove typing indicator
+      removeTypingIndicator(typingIndicator);
+      
+      // Add bot response
+      if (data && data.message) {
+        addMessageToChat(data.message, false);
+      } else {
+        addMessageToChat('Sorry, I received an invalid response. Please try again.', false);
+      }
+    } catch (error) {
+      console.error('Chat Error:', error);
+      removeTypingIndicator(typingIndicator);
+      addMessageToChat('Sorry, I encountered an error. Please try again or contact us via WhatsApp.', false);
+    }
+  }
+
+  function addMessageToChat(message, isUser) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${isUser ? 'user' : 'bot'}`;
+    
+    const messageContent = document.createElement('div');
+    messageContent.className = 'message-content';
+    messageContent.textContent = message;
+    
+    messageDiv.appendChild(messageContent);
+    chatMessages.appendChild(messageDiv);
+    
+    // Scroll to bottom
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    
+    // Add animation
+    messageDiv.style.opacity = '0';
+    messageDiv.style.transform = 'translateY(20px)';
+    setTimeout(() => {
+      messageDiv.style.transition = 'all 0.3s ease';
+      messageDiv.style.opacity = '1';
+      messageDiv.style.transform = 'translateY(0)';
+    }, 10);
+  }
+
+  function addTypingIndicator() {
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'message bot typing-indicator';
+    typingDiv.innerHTML = '<div class="message-content">Typing<span class="dots">...</span></div>';
+    chatMessages.appendChild(typingDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    return typingDiv;
+  }
+
+  function removeTypingIndicator(indicator) {
+    if (indicator && indicator.parentNode) {
+      indicator.parentNode.removeChild(indicator);
+    }
+  }
+
+  // Event listeners for sending messages
+  if (sendButton) {
+    sendButton.addEventListener('click', sendMessage);
+  }
+
+  if (chatInput) {
+    chatInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        sendMessage(e);
+      }
+    });
+  }
+}
+
+// GSAP Animations
+function initializeAnimations() {
+  // Register ScrollTrigger plugin
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Hero section animations
+  gsap.timeline()
+    .from('.profile-image', { duration: 1, scale: 0, ease: 'back.out(1.7)' })
+    .from('.profile-name', { duration: 1, y: 50, opacity: 0 }, '-=0.5')
+    .from('.profile-title', { duration: 1, y: 30, opacity: 0 }, '-=0.3')
+    .from('.hero-subtitle', { duration: 1, y: 30, opacity: 0 }, '-=0.3')
+    .from('.service-highlights .highlight-item', { 
+      duration: 0.8, 
+      y: 30, 
+      opacity: 0, 
+      stagger: 0.2 
+    }, '-=0.3')
+    .from('.cta-buttons .cta', { 
+      duration: 0.8, 
+      y: 30, 
+      opacity: 0, 
+      stagger: 0.1 
+    }, '-=0.3');
+
+  // Service cards animation
+  gsap.fromTo('.service-card', 
+    { y: 100, opacity: 0 },
+    {
+      y: 0,
+      opacity: 1,
+      duration: 1,
+      stagger: 0.2,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '.services-section',
+        start: 'top 80%',
+        end: 'bottom 20%',
+        toggleActions: 'play none none reverse'
+      }
+    }
+  );
+
+  // Portfolio items animation
+  gsap.fromTo('.portfolio-item',
+    { scale: 0.8, opacity: 0 },
+    {
+      scale: 1,
+      opacity: 1,
+      duration: 1,
+      stagger: 0.3,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '.portfolio-section',
+        start: 'top 80%',
+        end: 'bottom 20%',
+        toggleActions: 'play none none reverse'
+      }
+    }
+  );
+
+  // Utility apps animation
+  gsap.fromTo('.app-card',
+    { rotationY: 90, opacity: 0 },
+    {
+      rotationY: 0,
+      opacity: 1,
+      duration: 1,
+      stagger: 0.2,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '#utilities',
+        start: 'top 80%',
+        end: 'bottom 20%',
+        toggleActions: 'play none none reverse'
+      }
+    }
+  );
+
+  // Floating elements animation
+  gsap.to('.circuit-node', {
+    y: '+=20',
+    duration: 2,
+    ease: 'power1.inOut',
+    stagger: 0.5,
+    repeat: -1,
+    yoyo: true
+  });
+
+  // Parallax effect for background elements
+  gsap.to('.neon-circuit', {
+    y: '-50%',
+    ease: 'none',
+    scrollTrigger: {
+      trigger: 'body',
+      start: 'top top',
+      end: 'bottom top',
+      scrub: 1
+    }
+  });
+}
+
+// Enhanced ticker with more dynamic content
+function updateTicker() {
+  const techNews = [
+    "🚀 Latest: AI-powered web development solutions now available",
+    "💡 New: Custom chatbot integration services launched",
+    "🌟 Featured: Mobile-first responsive design packages",
+    "⚡ Update: Cloud hosting with 99.9% uptime guarantee",
+    "🔥 Trending: React & Node.js development services",
+    "🎯 Special: Free consultation for new projects",
+    "🛡️ Security: SSL certificates included with all hosting plans",
+    "📱 Mobile: Cross-platform app development available"
+  ];
+  
+  const tickerText = document.querySelector('.ticker-text');
+  if (tickerText) {
+    const randomNews = techNews[Math.floor(Math.random() * techNews.length)];
+    tickerText.textContent = randomNews;
+  }
+}
+
+// Update ticker every 10 seconds
+setInterval(updateTicker, 10000);
+updateTicker(); // Initial call
+
+// Smooth reveal animations for elements coming into view
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, observerOptions);
+
+// Observe elements for animation
+document.addEventListener('DOMContentLoaded', function() {
+  const animateElements = document.querySelectorAll('.service-card, .portfolio-item, .app-card');
+  animateElements.forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(30px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+  });
+});
+
+// Add typing effect for chat messages
+function typeMessage(element, message, speed = 50) {
+  element.textContent = '';
+  let i = 0;
+  
+  function typeChar() {
+    if (i < message.length) {
+      element.textContent += message.charAt(i);
+      i++;
+      setTimeout(typeChar, speed);
+    }
+  }
+  
+  typeChar();
+}
+
+// Initialize typewriter effect for code lines with sequential animation
+function initializeTypewriterCode() {
+  const codeGroups = document.querySelectorAll('.code-group');
+  let currentGroupIndex = 0;
+  
+  function showNextGroup() {
+    // Hide all groups first
+    codeGroups.forEach(group => {
+      group.classList.remove('active', 'scroll-up');
+    });
+    
+    // Show current group
+    const currentGroup = codeGroups[currentGroupIndex];
+    currentGroup.classList.add('active');
+    
+    // Type out the lines in the current group
+    const codeLines = currentGroup.querySelectorAll('.code-line');
+    
+    codeLines.forEach((line, lineIndex) => {
+      const text = line.getAttribute('data-text');
+      
+      // Clear initial text
+      line.textContent = '';
+      line.classList.remove('typing');
+      
+      setTimeout(() => {
+        line.classList.add('typing');
+        typewriterEffect(line, text, 50);
+      }, lineIndex * 600); // Stagger lines within group
+    });
+    
+    // Calculate total time for this group (typing + pause)
+    const typingTime = codeLines.length * 600 + 2000; // Lines + 2s pause
+    const pauseTime = 2000; // 2 second pause after completion
+    
+    setTimeout(() => {
+      // Scroll up current group
+      currentGroup.classList.remove('active');
+      currentGroup.classList.add('scroll-up');
+      
+      // Move to next group
+      currentGroupIndex = (currentGroupIndex + 1) % codeGroups.length;
+      
+      // Show next group after scroll animation
+      setTimeout(showNextGroup, 800);
+    }, typingTime + pauseTime);
+  }
+  
+  // Start the animation cycle
+  showNextGroup();
+}
+
+function typewriterEffect(element, text, speed = 50) {
+  let i = 0;
+  element.style.width = 'auto';
+  
+  function type() {
+    if (i < text.length) {
+      element.textContent += text.charAt(i);
+      i++;
+      setTimeout(type, speed);
+    }
+  }
+  
+  type();
+}
+
+// Enhanced error handling for mobile devices
+window.addEventListener('error', function(e) {
+  console.error('Global error:', e.error);
+});
+
+// Service worker registration for better mobile performance
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/sw.js')
+      .then(function(registration) {
+        console.log('ServiceWorker registration successful');
+      })
+      .catch(function(err) {
+        console.log('ServiceWorker registration failed');
+      });
+  });
+}
+
+// Add utilities link functionality and neural network generation
+document.addEventListener('DOMContentLoaded', function() {
+  // Initialize typewriter code effect
+  initializeTypewriterCode();
+  
+  // Utilities section toggle
+  const utilitiesLink = document.getElementById('utilities-link');
+  const utilitiesSection = document.getElementById('utilities');
+  
+  if (utilitiesLink && utilitiesSection) {
+    utilitiesLink.addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      if (utilitiesSection.classList.contains('show')) {
+        // Hide utilities
+        utilitiesSection.classList.remove('show');
+        setTimeout(() => {
+          utilitiesSection.style.display = 'none';
+        }, 800);
+      } else {
+        // Show utilities
+        utilitiesSection.style.display = 'block';
+        setTimeout(() => {
+          utilitiesSection.classList.add('show');
+          utilitiesSection.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }, 50);
+      }
+    });
+  }
+
+  // Generate Neural Network Nodes
+  generateNeuralNetwork();
+  
+  // Initialize existing functionality
+  const navToggle = document.querySelector('.nav-toggle');
+  const navLinks = document.querySelector('.nav-links');
+  
+  if (navToggle) {
+    navToggle.addEventListener('click', function() {
+      navLinks.classList.toggle('active');
+    });
+  }
+
+  // Smooth scrolling for navigation links (except utilities)
+  document.querySelectorAll('a[href^="#"]:not(#utilities-link)').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+        // Close mobile menu if open
+        navLinks.classList.remove('active');
+      }
+    });
+  });
+
+  // Initialize other components
+  initializeCalculator();
+  initializeQRGenerator();
+  initializeEnhancedChat();
+  initializeAnimations();
+});
+
+// Generate Neural Network Nodes
+function generateNeuralNetwork() {
+  const neuralNetwork = document.querySelector('.neural-network');
+  if (!neuralNetwork) return;
+
+  // Clear existing nodes
+  neuralNetwork.innerHTML = '';
+
+  // Create neural nodes
+  const nodePositions = [
+    { x: 50, y: 50 }, // Center
+    { x: 20, y: 30 }, { x: 80, y: 30 }, // Top layer
+    { x: 30, y: 70 }, { x: 70, y: 70 }, // Bottom layer
+    { x: 10, y: 50 }, { x: 90, y: 50 }, // Side nodes
+    { x: 40, y: 20 }, { x: 60, y: 20 }, // Top nodes
+    { x: 40, y: 80 }, { x: 60, y: 80 }  // Bottom nodes
+  ];
+
+  // Create nodes
+  nodePositions.forEach((pos, index) => {
+    const node = document.createElement('div');
+    node.className = 'neural-node';
+    node.style.left = `${pos.x}%`;
+    node.style.top = `${pos.y}%`;
+    node.style.animationDelay = `${index * 0.2}s`;
+    neuralNetwork.appendChild(node);
+  });
+
+  // Create connections between nodes
+  const connections = [
+    [0, 1], [0, 2], [0, 3], [0, 4], // Center to others
+    [1, 2], [3, 4], // Horizontal connections
+    [1, 7], [2, 8], [3, 9], [4, 10], // Vertical connections
+    [5, 0], [6, 0] // Side to center
+  ];
+
+  connections.forEach((connection, index) => {
+    const [start, end] = connection;
+    const startPos = nodePositions[start];
+    const endPos = nodePositions[end];
+    
+    const connectionEl = document.createElement('div');
+    connectionEl.className = 'neural-connection';
+    
+    // Calculate connection properties
+    const deltaX = endPos.x - startPos.x;
+    const deltaY = endPos.y - startPos.y;
+    const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    const angle = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
+    
+    connectionEl.style.left = `${startPos.x}%`;
+    connectionEl.style.top = `${startPos.y}%`;
+    connectionEl.style.width = `${distance}%`;
+    connectionEl.style.transform = `rotate(${angle}deg)`;
+    connectionEl.style.transformOrigin = '0 50%';
+    connectionEl.style.animationDelay = `${index * 0.3}s`;
+    
+    neuralNetwork.appendChild(connectionEl);
+  });
+}
+
+// Enhanced Deploy Button Interaction
+document.addEventListener('DOMContentLoaded', function() {
+  const deployButton = document.querySelector('.deploy-button');
+  if (deployButton) {
+    deployButton.addEventListener('click', function() {
+      // Add click effect
+      this.style.transform = 'scale(0.95)';
+      this.style.boxShadow = '0 0 50px #00ff00';
+      
+      // Create deployment particles
+      createDeploymentParticles();
+      
+      // Reset button after animation
+      setTimeout(() => {
+        this.style.transform = 'scale(1)';
+        this.style.boxShadow = '0 0 30px #00ff00';
+      }, 200);
+    });
+  }
+});
+
+// Create Deployment Particles Effect
+function createDeploymentParticles() {
+  const hero = document.querySelector('.hero');
+  const deployButton = document.querySelector('.deploy-button');
+  const buttonRect = deployButton.getBoundingClientRect();
+  const heroRect = hero.getBoundingClientRect();
+  
+  for (let i = 0; i < 20; i++) {
+    const particle = document.createElement('div');
+    particle.style.position = 'absolute';
+    particle.style.width = '4px';
+    particle.style.height = '4px';
+    particle.style.background = '#00ff00';
+    particle.style.borderRadius = '50%';
+    particle.style.pointerEvents = 'none';
+    particle.style.zIndex = '100';
+    
+    // Position relative to hero section
+    const startX = ((buttonRect.left + buttonRect.width / 2) - heroRect.left) / heroRect.width * 100;
+    const startY = ((buttonRect.top + buttonRect.height / 2) - heroRect.top) / heroRect.height * 100;
+    
+    particle.style.left = `${startX}%`;
+    particle.style.top = `${startY}%`;
+    
+    // Random direction
+    const angle = (Math.PI * 2 * i) / 20;
+    const velocity = 50 + Math.random() * 100;
+    const endX = startX + Math.cos(angle) * velocity / heroRect.width * 100;
+    const endY = startY + Math.sin(angle) * velocity / heroRect.height * 100;
+    
+    hero.appendChild(particle);
+    
+    // Animate particle
+    particle.animate([
+      { 
+        transform: 'translate(0, 0) scale(1)',
+        opacity: 1
+      },
+      { 
+        transform: `translate(${endX - startX}vw, ${endY - startY}vh) scale(0)`,
+        opacity: 0
+      }
+    ], {
+      duration: 1000 + Math.random() * 500,
+      easing: 'ease-out'
+    }).onfinish = () => {
+      particle.remove();
+    };
+  }
+}
+
+// Enhanced Code Snippet Animation with Dynamic Generation
+function enhanceCodeSnippets() {
+  const codeSnippets = document.querySelectorAll('.code-snippet');
+  
+  // Enhanced AI/ML code examples for more realistic feel
+  const codeExamples = {
+    python: [
+      'def neural_network(input_data):',
+      'import tensorflow as tf',
+      'model.compile(optimizer="adam")',
+      'np.dot(weights, inputs)',
+      'from sklearn import datasets',
+      'model.fit(X_train, y_train)',
+      'predictions = model.predict(X_test)',
+      'loss = tf.keras.losses.mse(y_true, y_pred)',
+      'optimizer = tf.keras.optimizers.Adam()',
+      'layer = tf.keras.layers.Dense(128)',
+      'activation = tf.nn.relu(x)',
+      'gradient = tf.gradients(loss, weights)'
+    ],
+    java: [
+      'public class AIProcessor {',
+      '@Override public void process()',
+      'Matrix multiply(Matrix a, Matrix b)',
+      'double sigmoid(double x) {',
+      'public void backpropagate() {',
+      'private float[] weights;',
+      'public class NeuralNetwork {',
+      'void updateWeights(float[] gradients)',
+      'float calculateLoss(float[] predicted)',
+      'public void train(Dataset data) {',
+      'Matrix transpose(Matrix matrix)',
+      'void initializeWeights(int size)'
+    ],
+    assembly: [
+      'MOV AX, 0x1000',
+      'JMP neural_loop',
+      'CALL activation_function',
+      'PUSH gradient_value',
+      'ADD EAX, EBX',
+      'MUL weight_matrix',
+      'CMP result, threshold',
+      'JNE continue_training',
+      'LOAD input_vector',
+      'STORE output_result',
+      'LOOP matrix_multiply',
+      'RET from_function'
+    ],
+    cpp: [
+      'std::vector<float> weights;',
+      'class DeepLearning {',
+      'auto result = forward_pass();',
+      'backpropagation();',
+      'template<typename T>',
+      'Matrix<float> multiply(Matrix<float>&)',
+      'void train(const Dataset& data)',
+      'float sigmoid(float x) {',
+      'std::unique_ptr<Layer> layer;',
+      'void updateWeights(const Gradient&)',
+      'class NeuralNetwork {',
+      'float calculateError(float target)'
+    ]
+  };
+  
+  codeSnippets.forEach((snippet, index) => {
+    // Add random delay to each snippet
+    snippet.style.animationDelay = `${index * 0.3}s`;
+    
+    // Randomly change code content every 8 seconds
+    setInterval(() => {
+      const type = snippet.classList.contains('python') ? 'python' : 
+                   snippet.classList.contains('java') ? 'java' : 
+                   snippet.classList.contains('assembly') ? 'assembly' : 'cpp';
+      const examples = codeExamples[type];
+      const randomCode = examples[Math.floor(Math.random() * examples.length)];
+      snippet.innerHTML = randomCode;
+    }, 8000 + Math.random() * 4000);
+    
+    // Add hover effect
+    snippet.addEventListener('mouseenter', function() {
+      this.style.animationPlayState = 'paused';
+      this.style.transform += ' scale(1.2)';
+      this.style.zIndex = '20';
+    });
+    
+    snippet.addEventListener('mouseleave', function() {
+      this.style.animationPlayState = 'running';
+      this.style.transform = this.style.transform.replace(' scale(1.2)', '');
+      this.style.zIndex = '3';
+    });
+  });
+}
+
+// Initialize enhanced animations
+document.addEventListener('DOMContentLoaded', function() {
+  enhanceCodeSnippets();
+  
+  // Add dynamic background particles
+  createBackgroundParticles();
+});
+
+// Enhanced Background Particles with Multiple Types
+function createBackgroundParticles() {
+  const hero = document.querySelector('.hero');
+  
+  // Create floating particles
+  for (let i = 0; i < 30; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'floating-particle';
+    particle.style.position = 'absolute';
+    particle.style.width = `${2 + Math.random() * 4}px`;
+    particle.style.height = `${2 + Math.random() * 4}px`;
+    particle.style.background = `hsl(${180 + Math.random() * 60}, 100%, 70%)`;
+    particle.style.borderRadius = '50%';
+    particle.style.pointerEvents = 'none';
+    particle.style.opacity = '0.4';
+    particle.style.boxShadow = `0 0 10px currentColor`;
+    
+    // Random position
+    particle.style.left = `${Math.random() * 100}%`;
+    particle.style.top = `${Math.random() * 100}%`;
+    
+    // Random animation
+    particle.style.animation = `floatParticle ${5 + Math.random() * 10}s ease-in-out infinite`;
+    particle.style.animationDelay = `${Math.random() * 5}s`;
+    
+    hero.appendChild(particle);
+  }
+  
+  // Create binary code particles
+  for (let i = 0; i < 20; i++) {
+    const binaryParticle = document.createElement('div');
+    binaryParticle.className = 'binary-particle';
+    binaryParticle.style.position = 'absolute';
+    binaryParticle.style.color = `hsl(${120 + Math.random() * 120}, 100%, 70%)`;
+    binaryParticle.style.fontSize = '12px';
+    binaryParticle.style.fontFamily = 'monospace';
+    binaryParticle.style.pointerEvents = 'none';
+    binaryParticle.style.opacity = '0.6';
+    binaryParticle.textContent = Math.random() > 0.5 ? '1' : '0';
+    
+    // Random position
+    binaryParticle.style.left = `${Math.random() * 100}%`;
+    binaryParticle.style.top = `${Math.random() * 100}%`;
+    
+    // Random animation
+    binaryParticle.style.animation = `binaryFloat ${8 + Math.random() * 6}s linear infinite`;
+    binaryParticle.style.animationDelay = `${Math.random() * 8}s`;
+    
+    hero.appendChild(binaryParticle);
+    
+    // Change binary value periodically
+    setInterval(() => {
+      binaryParticle.textContent = Math.random() > 0.5 ? '1' : '0';
+    }, 1000 + Math.random() * 2000);
+  }
+}
+
+// Add sound effects for interactions
+function initializeSoundEffects() {
+  // Create audio context for sound effects
+  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  
+  function playBeep(frequency = 800, duration = 100) {
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    oscillator.frequency.value = frequency;
+    oscillator.type = 'sine';
+    
+    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration / 1000);
+    
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + duration / 1000);
+  }
+  
+  // Add sound to deploy button
+  const deployButton = document.querySelector('.deploy-button');
+  if (deployButton) {
+    deployButton.addEventListener('click', () => playBeep(1000, 200));
+  }
+  
+  // Add sound to neural nodes
+  document.querySelectorAll('.neural-node').forEach(node => {
+    node.addEventListener('mouseenter', () => playBeep(600, 50));
+  });
+}
+
+// Initialize sound effects after user interaction
+document.addEventListener('click', function initAudio() {
+  initializeSoundEffects();
+  document.removeEventListener('click', initAudio);
+}, { once: true });
