@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modi-Prompt - Video Prompt Generator | FK.GPT</title>
+  <meta name="description" content="Create detailed video prompts with AI assistance using Modi-Prompt tool">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="icon" type="image/png" href="images/FKGPT.gif">
+  <style>
+    .modi-prompt-container {
+      margin-top: 80px;
+      padding: 20px;
+      min-height: calc(100vh - 100px);
+    }
+    
+    .modi-prompt-header {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #00ffff;
+    }
+    
+    .modi-prompt-iframe {
+      width: 100%;
+      height: calc(100vh - 200px);
+      border: 2px solid #00ffff;
+      border-radius: 10px;
+      background: rgba(0, 255, 255, 0.1);
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+    }
+    
+    .back-button {
+      position: fixed;
+      top: 100px;
+      left: 20px;
+      background: linear-gradient(45deg, #00ffff, #0080ff);
+      color: #000;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+    
+    .back-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+    }
+  </style>
+</head>
+<body>
+  <canvas id="smokeCanvas"></canvas>
+  
+  <div class="neon-circuit">
+    <div class="circuit-node" style="top: 10%; left: 15%"></div>
+    <div class="circuit-node" style="top: 30%; left: 85%"></div>
+    <div class="circuit-node" style="top: 70%; left: 25%"></div>
+    <div class="circuit-node" style="top: 90%; left: 75%"></div>
+  </div>
+
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <img src="images/FKGPT.gif" alt="FK.GPT" width="40" height="40">
+        <span></span>
+      </div>
+      <div class="nav-links">
+        <a href="index.html#home">Home</a>
+        <a href="index.html#services">Services</a>
+        <a href="index.html#utilities">Utilities</a>
+        <a href="modi-prompt.html" class="active">Modi-Prompt</a>
+        <a href="index.html#portfolio">Portfolio</a>
+        <a href="index.html#contact">Contact</a>
+      </div>
+      <div class="nav-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </nav>
+
+  <a href="index.html" class="back-button">
+    <i class="fas fa-arrow-left"></i> Back to Home
+  </a>
+
+  <div class="modi-prompt-container">
+    <div class="modi-prompt-header">
+      <h1>Modi-Prompt - AI Video Prompt Generator</h1>
+      <p>Create detailed video prompts with optional image references using advanced AI technology</p>
+    </div>
+    
+    <iframe 
+      src="https://mp-client.replit.app/" 
+      class="modi-prompt-iframe"
+      frameborder="0"
+      allowfullscreen
+      title="Modi-Prompt Video Prompt Generator">
+    </iframe>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
