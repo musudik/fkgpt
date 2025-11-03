@@ -1869,3 +1869,442 @@ document.addEventListener('click', function initAudio() {
   initializeSoundEffects();
   document.removeEventListener('click', initAudio);
 }, { once: true });
+
+// GDPR Cookie Consent Management
+class GDPRManager {
+  constructor() {
+    this.cookieConsent = this.getCookieConsent();
+    this.init();
+  }
+
+  init() {
+    this.setupEventListeners();
+    this.checkConsentStatus();
+    this.loadConsentedServices();
+  }
+
+  setupEventListeners() {
+    // Banner buttons
+    document.getElementById('gdpr-accept')?.addEventListener('click', () => this.acceptAll());
+    document.getElementById('gdpr-decline')?.addEventListener('click', () => this.declineAll());
+    document.getElementById('gdpr-settings')?.addEventListener('click', () => this.showSettings());
+
+    // Modal buttons
+    document.getElementById('save-preferences')?.addEventListener('click', () => this.savePreferences());
+    document.getElementById('close-modal')?.addEventListener('click', () => this.hideSettings());
+
+    // Footer links
+    document.getElementById('privacy-policy-link')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      this.showPrivacyPolicy();
+    });
+    document.getElementById('cookie-policy-link')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      this.showCookiePolicy();
+    });
+    document.getElementById('gdpr-settings-link')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      this.showSettings();
+    });
+    document.getElementById('footer-privacy-link')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      this.showPrivacyPolicy();
+    });
+    document.getElementById('footer-cookie-link')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      this.showSettings();
+    });
+    document.getElementById('banner-privacy-link')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      this.showPrivacyPolicy();
+    });
+
+    // Toggle switches
+    document.querySelectorAll('.toggle-switch').forEach(toggle => {
+      if (!toggle.classList.contains('active') || toggle.dataset.type !== 'essential') {
+        toggle.addEventListener('click', () => this.toggleCookie(toggle));
+      }
+    });
+
+    // Close modal on outside click
+    document.getElementById('privacy-modal')?.addEventListener('click', (e) => {
+      if (e.target.id === 'privacy-modal') {
+        this.hideSettings();
+      }
+    });
+  }
+
+  checkConsentStatus() {
+    if (!this.cookieConsent.hasConsented) {
+      setTimeout(() => {
+        document.getElementById('gdpr-banner')?.classList.add('show');
+      }, 2000); // Show banner after 2 seconds
+    }
+  }
+
+  getCookieConsent() {
+    const consent = localStorage.getItem('gdpr-consent');
+    if (consent) {
+      return JSON.parse(consent);
+    }
+    return {
+      hasConsented: false,
+      essential: true,
+      analytics: false,
+      marketing: false,
+      functional: false,
+      timestamp: null
+    };
+  }
+
+  setCookieConsent(consent) {
+    consent.timestamp = new Date().toISOString();
+    localStorage.setItem('gdpr-consent', JSON.stringify(consent));
+    this.cookieConsent = consent;
+  }
+
+  acceptAll() {
+    const consent = {
+      hasConsented: true,
+      essential: true,
+      analytics: true,
+      marketing: true,
+      functional: true
+    };
+    this.setCookieConsent(consent);
+    this.hideBanner();
+    this.loadConsentedServices();
+    this.showNotification('All cookies accepted. Thank you!', 'success');
+  }
+
+  declineAll() {
+    const consent = {
+      hasConsented: true,
+      essential: true,
+      analytics: false,
+      marketing: false,
+      functional: false
+    };
+    this.setCookieConsent(consent);
+    this.hideBanner();
+    this.loadConsentedServices();
+    this.showNotification('Only essential cookies will be used.', 'info');
+  }
+
+  showSettings() {
+    // Update toggle states
+    document.getElementById('analytics-toggle')?.classList.toggle('active', this.cookieConsent.analytics);
+    document.getElementById('marketing-toggle')?.classList.toggle('active', this.cookieConsent.marketing);
+    document.getElementById('functional-toggle')?.classList.toggle('active', this.cookieConsent.functional);
+    
+    document.getElementById('privacy-modal')?.classList.add('show');
+  }
+
+  hideSettings() {
+    document.getElementById('privacy-modal')?.classList.remove('show');
+  }
+
+  savePreferences() {
+    const consent = {
+      hasConsented: true,
+      essential: true,
+      analytics: document.getElementById('analytics-toggle')?.classList.contains('active') || false,
+      marketing: document.getElementById('marketing-toggle')?.classList.contains('active') || false,
+      functional: document.getElementById('functional-toggle')?.classList.contains('active') || false
+    };
+    
+    this.setCookieConsent(consent);
+    this.hideSettings();
+    this.hideBanner();
+    this.loadConsentedServices();
+    this.showNotification('Cookie preferences saved successfully!', 'success');
+  }
+
+  toggleCookie(toggle) {
+    toggle.classList.toggle('active');
+  }
+
+  hideBanner() {
+    document.getElementById('gdpr-banner')?.classList.remove('show');
+  }
+
+  loadConsentedServices() {
+    // Load Google Analytics if consented
+    if (this.cookieConsent.analytics && !window.gtag) {
+      this.loadGoogleAnalytics();
+    }
+
+    // Load other marketing/functional scripts based on consent
+    if (this.cookieConsent.marketing) {
+      this.loadMarketingScripts();
+    }
+
+    if (this.cookieConsent.functional) {
+      this.loadFunctionalScripts();
+    }
+  }
+
+  loadGoogleAnalytics() {
+    // Replace 'GA_MEASUREMENT_ID' with your actual Google Analytics ID
+    const script1 = document.createElement('script');
+    script1.async = true;
+    script1.src = 'https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID';
+    document.head.appendChild(script1);
+
+    const script2 = document.createElement('script');
+    script2.innerHTML = `
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'GA_MEASUREMENT_ID', {
+        anonymize_ip: true,
+        cookie_flags: 'SameSite=None;Secure'
+      });
+    `;
+    document.head.appendChild(script2);
+  }
+
+  loadMarketingScripts() {
+    // Add marketing/advertising scripts here
+    console.log('Loading marketing scripts...');
+  }
+
+  loadFunctionalScripts() {
+    // Add functional scripts here (chat widgets, etc.)
+    console.log('Loading functional scripts...');
+  }
+
+  showPrivacyPolicy() {
+    const modal = document.getElementById('privacy-modal');
+    const content = modal.querySelector('.privacy-content');
+    content.innerHTML = `
+      <h3>🔒 Privacy Policy</h3>
+      <div style="max-height: 400px; overflow-y: auto;">
+        <h4>Data Controller</h4>
+        <p><strong>FK.GPT</strong><br>
+        Email: contact@fkgpt.dev<br>
+        Website: www.fkgpt.dev</p>
+
+        <h4>Data We Collect</h4>
+        <ul>
+          <li><strong>Technical Data:</strong> IP address, browser type, device information</li>
+          <li><strong>Usage Data:</strong> Pages visited, time spent, interactions</li>
+          <li><strong>Contact Data:</strong> Name, email when you contact us</li>
+        </ul>
+
+        <h4>How We Use Your Data</h4>
+        <ul>
+          <li>Provide and improve our services</li>
+          <li>Analyze website usage and performance</li>
+          <li>Respond to your inquiries</li>
+          <li>Comply with legal obligations</li>
+        </ul>
+
+        <h4>Your Rights (GDPR)</h4>
+        <ul>
+          <li><strong>Access:</strong> Request a copy of your personal data</li>
+          <li><strong>Rectification:</strong> Correct inaccurate data</li>
+          <li><strong>Erasure:</strong> Request deletion of your data</li>
+          <li><strong>Portability:</strong> Receive your data in a structured format</li>
+          <li><strong>Objection:</strong> Object to processing of your data</li>
+        </ul>
+
+        <h4>Data Retention</h4>
+        <p>We retain personal data only as long as necessary for the purposes outlined in this policy or as required by law.</p>
+
+        <h4>Contact Us</h4>
+        <p>For any privacy-related questions or to exercise your rights, contact us at: <strong>contact@fkgpt.dev</strong></p>
+      </div>
+      <div style="margin-top: 20px; text-align: center;">
+        <button id="close-privacy" class="gdpr-btn gdpr-accept">Close</button>
+      </div>
+    `;
+    
+    document.getElementById('close-privacy').addEventListener('click', () => this.hideSettings());
+    modal.classList.add('show');
+  }
+
+  showCookiePolicy() {
+    const modal = document.getElementById('privacy-modal');
+    const content = modal.querySelector('.privacy-content');
+    content.innerHTML = `
+      <h3>🍪 Cookie Policy</h3>
+      <div style="max-height: 400px; overflow-y: auto;">
+        <h4>What Are Cookies?</h4>
+        <p>Cookies are small text files stored on your device when you visit our website. They help us provide you with a better experience.</p>
+
+        <h4>Types of Cookies We Use</h4>
+        
+        <h5>Essential Cookies (Always Active)</h5>
+        <ul>
+          <li><strong>Session cookies:</strong> Remember your preferences during your visit</li>
+          <li><strong>Security cookies:</strong> Protect against malicious attacks</li>
+        </ul>
+
+        <h5>Analytics Cookies (Optional)</h5>
+        <ul>
+          <li><strong>Google Analytics:</strong> Understand how visitors use our site</li>
+          <li><strong>Performance monitoring:</strong> Track site performance and errors</li>
+        </ul>
+
+        <h5>Marketing Cookies (Optional)</h5>
+        <ul>
+          <li><strong>Advertising:</strong> Show relevant ads based on your interests</li>
+          <li><strong>Social media:</strong> Enable social sharing features</li>
+        </ul>
+
+        <h5>Functional Cookies (Optional)</h5>
+        <ul>
+          <li><strong>Chat widgets:</strong> Enable customer support features</li>
+          <li><strong>Preferences:</strong> Remember your settings and choices</li>
+        </ul>
+
+        <h4>Managing Cookies</h4>
+        <p>You can control cookies through:</p>
+        <ul>
+          <li>Our cookie consent banner</li>
+          <li>Your browser settings</li>
+          <li>Third-party opt-out tools</li>
+        </ul>
+
+        <h4>Third-Party Cookies</h4>
+        <p>Some cookies are set by third-party services we use, such as Google Analytics. These services have their own privacy policies.</p>
+      </div>
+      <div style="margin-top: 20px; text-align: center;">
+        <button id="close-cookie-policy" class="gdpr-btn gdpr-accept">Close</button>
+      </div>
+    `;
+    
+    document.getElementById('close-cookie-policy').addEventListener('click', () => this.hideSettings());
+    modal.classList.add('show');
+  }
+
+  showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: ${type === 'success' ? 'linear-gradient(45deg, #00ff00, #00cc00)' : 'linear-gradient(45deg, #00ffff, #0080ff)'};
+      color: #000;
+      padding: 15px 20px;
+      border-radius: 10px;
+      z-index: 10002;
+      font-weight: bold;
+      box-shadow: 0 5px 15px rgba(0, 255, 255, 0.3);
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+    `;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+      notification.style.transform = 'translateX(0)';
+    }, 100);
+
+    setTimeout(() => {
+      notification.style.transform = 'translateX(100%)';
+      setTimeout(() => {
+        document.body.removeChild(notification);
+      }, 300);
+    }, 3000);
+  }
+}
+
+// Initialize GDPR Manager
+document.addEventListener('DOMContentLoaded', () => {
+  new GDPRManager();
+  
+  // Initialize Live Projects Toggle
+  initializeLiveProjectsToggle();
+});
+
+// Live Projects Section Toggle Functionality
+function initializeLiveProjectsToggle() {
+  const toggle = document.getElementById('live-projects-toggle');
+  const section = document.getElementById('live-projects-section');
+  const arrow = document.getElementById('projects-arrow');
+  const closeBtn = document.getElementById('close-projects');
+  
+  if (!toggle || !section || !arrow) return;
+  
+  let isVisible = false;
+  
+  // Toggle section visibility
+  toggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (!isVisible) {
+      showProjectsSection();
+    } else {
+      hideProjectsSection();
+    }
+  });
+  
+  // Close button functionality
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => {
+      hideProjectsSection();
+    });
+  }
+  
+  function showProjectsSection() {
+    isVisible = true;
+    section.classList.add('show');
+    arrow.classList.add('rotated');
+    
+    // Smooth scroll to the section
+    setTimeout(() => {
+      section.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'start' 
+      });
+    }, 100);
+    
+    // Add escape key listener
+    document.addEventListener('keydown', handleEscapeKey);
+  }
+  
+  function hideProjectsSection() {
+    isVisible = false;
+    section.classList.remove('show');
+    arrow.classList.remove('rotated');
+    
+    // Scroll back to hero section
+    document.getElementById('home').scrollIntoView({ 
+      behavior: 'smooth', 
+      block: 'start' 
+    });
+    
+    // Remove escape key listener
+    document.removeEventListener('keydown', handleEscapeKey);
+  }
+  
+  function handleEscapeKey(e) {
+    if (e.key === 'Escape' && isVisible) {
+      hideProjectsSection();
+    }
+  }
+  
+  // Add smooth animations for project cards
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, index) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }, index * 100);
+      }
+    });
+  }, { threshold: 0.1 });
+  
+  // Observe project cards when section becomes visible
+  const projectCards = section.querySelectorAll('.project-card');
+  projectCards.forEach(card => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(30px)';
+    card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(card);
+  });
+}

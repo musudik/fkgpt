@@ -10,6 +10,199 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
   <link rel="icon" type="image/png" href="images/FKGPT.gif">
+  
+  <!-- GDPR Cookie Consent Styles -->
+  <style>
+    .gdpr-banner {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(0, 255, 255, 0.1));
+      backdrop-filter: blur(10px);
+      border-top: 2px solid #00ffff;
+      padding: 20px;
+      z-index: 10000;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+      box-shadow: 0 -5px 20px rgba(0, 255, 255, 0.3);
+    }
+    
+    .gdpr-banner.show {
+      transform: translateY(0);
+    }
+    
+    .gdpr-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    
+    .gdpr-text {
+      flex: 1;
+      min-width: 300px;
+      color: #ffffff;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    
+    .gdpr-text h4 {
+      color: #00ffff;
+      margin: 0 0 10px 0;
+      font-size: 16px;
+    }
+    
+    .gdpr-text a {
+      color: #00ffff;
+      text-decoration: underline;
+    }
+    
+    .gdpr-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    
+    .gdpr-btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      font-size: 14px;
+    }
+    
+    .gdpr-accept {
+      background: linear-gradient(45deg, #00ffff, #0080ff);
+      color: #000;
+    }
+    
+    .gdpr-accept:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+    }
+    
+    .gdpr-decline {
+      background: transparent;
+      color: #ffffff;
+      border: 2px solid #ffffff;
+    }
+    
+    .gdpr-decline:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    
+    .gdpr-settings {
+      background: transparent;
+      color: #00ffff;
+      border: 2px solid #00ffff;
+    }
+    
+    .gdpr-settings:hover {
+      background: rgba(0, 255, 255, 0.1);
+    }
+    
+    .privacy-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(5px);
+      z-index: 10001;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    .privacy-modal.show {
+      display: flex;
+    }
+    
+    .privacy-content {
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(0, 255, 255, 0.1));
+      border: 2px solid #00ffff;
+      border-radius: 15px;
+      padding: 30px;
+      max-width: 600px;
+      max-height: 80vh;
+      overflow-y: auto;
+      color: #ffffff;
+    }
+    
+    .privacy-content h3 {
+      color: #00ffff;
+      margin-top: 0;
+    }
+    
+    .privacy-content h4 {
+      color: #00ffff;
+      margin-top: 20px;
+    }
+    
+    .cookie-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 10px 0;
+      padding: 10px;
+      background: rgba(0, 255, 255, 0.1);
+      border-radius: 5px;
+    }
+    
+    .toggle-switch {
+      position: relative;
+      width: 50px;
+      height: 25px;
+      background: #333;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    
+    .toggle-switch.active {
+      background: #00ffff;
+    }
+    
+    .toggle-switch::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 21px;
+      height: 21px;
+      background: white;
+      border-radius: 50%;
+      transition: transform 0.3s;
+    }
+    
+    .toggle-switch.active::after {
+      transform: translateX(25px);
+    }
+    
+    @media (max-width: 768px) {
+      .gdpr-content {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .gdpr-buttons {
+        justify-content: center;
+      }
+      
+      .privacy-content {
+        margin: 10px;
+        padding: 20px;
+      }
+    }
+  </style>
 </head>
 <body>
   <canvas id="smokeCanvas"></canvas>
@@ -246,15 +439,147 @@
     <!-- Right Side Portfolio Links -->
     <div class="right-side-portfolio">
       <div class="portfolio-links">
-        <a href="https://github.com/yourusername" target="_blank" class="portfolio-link">
+        <a href="https://github.com/musudik" target="_blank" class="portfolio-link">
           <i class="fab fa-github"></i> GitHub Portfolio
         </a>
-        <a href="https://yourportfolio.com" target="_blank" class="portfolio-link">
+        <div class="portfolio-link" id="live-projects-toggle">
           <i class="fas fa-globe"></i> Live Projects
-        </a>
+          <i class="fas fa-chevron-down" id="projects-arrow"></i>
+        </div>
       </div>
     </div>
   </section>
+
+  <!-- Live Projects Section (Hidden by default) -->
+  <section id="live-projects-section" class="live-projects-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>🚀 Live Projects Portfolio</h2>
+        <p>Explore our collection of live, interactive web applications and digital solutions</p>
+      </div>
+      
+      <div class="projects-grid">
+        <div class="project-card">
+          <div class="project-header">
+            <h3><i class="fas fa-music"></i> DropMyBeats</h3>
+            <a href="https://dropmybeat.replit.app/" target="_blank" class="project-link">
+              <i class="fas fa-external-link-alt"></i>
+            </a>
+          </div>
+          <p class="project-description">Interactive DJ Event Management platform where music meets technology. Create, share, and experience interactive soundscapes.</p>
+          <div class="tech-stack">
+            <span class="tech-tag">React</span>
+            <span class="tech-tag">Node.js</span>
+            <span class="tech-tag">WebRTC</span>
+            <span class="tech-tag">Socket.io</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-header">
+            <h3><i class="fas fa-tint"></i> Zrinks</h3>
+            <a href="https://musudik.github.io/zrinks/" target="_blank" class="project-link">
+              <i class="fas fa-external-link-alt"></i>
+            </a>
+          </div>
+          <p class="project-description">Premium sparkling beverage brand website featuring all-natural fruit-infused drinks with bold flavors and modern design.</p>
+          <div class="tech-stack">
+            <span class="tech-tag">HTML5</span>
+            <span class="tech-tag">CSS3</span>
+            <span class="tech-tag">JavaScript</span>
+            <span class="tech-tag">GSAP</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-header">
+            <h3><i class="fas fa-headphones"></i> DJ Garry</h3>
+            <a href="https://musudik.github.io/dj-garry/" target="_blank" class="project-link">
+              <i class="fas fa-external-link-alt"></i>
+            </a>
+          </div>
+          <p class="project-description">Professional DJ equipment rental service with premium sound systems, lighting, and complete event setup solutions.</p>
+          <div class="tech-stack">
+            <span class="tech-tag">Vue.js</span>
+            <span class="tech-tag">CSS Grid</span>
+            <span class="tech-tag">Responsive Design</span>
+            <span class="tech-tag">PWA</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-header">
+            <h3><i class="fas fa-calendar-alt"></i> OneMunich365</h3>
+            <a href="https://onemunich365.de/" target="_blank" class="project-link">
+              <i class="fas fa-external-link-alt"></i>
+            </a>
+          </div>
+          <p class="project-description">Dynamic events organization platform hosting cultural festivals and sports tournaments in Munich with community engagement focus.</p>
+          <div class="tech-stack">
+            <span class="tech-tag">WordPress</span>
+            <span class="tech-tag">PHP</span>
+            <span class="tech-tag">MySQL</span>
+            <span class="tech-tag">Bootstrap</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-header">
+            <h3><i class="fas fa-trophy"></i> SV Lohhof Cricket</h3>
+            <a href="https://musudik.github.io/svl-teams/" target="_blank" class="project-link">
+              <i class="fas fa-external-link-alt"></i>
+            </a>
+          </div>
+          <p class="project-description">Professional cricket club website showcasing elite teams, player statistics, and DCB certification with modern sports design.</p>
+          <div class="tech-stack">
+            <span class="tech-tag">React</span>
+            <span class="tech-tag">TypeScript</span>
+            <span class="tech-tag">Tailwind CSS</span>
+            <span class="tech-tag">Chart.js</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-header">
+            <h3><i class="fas fa-bolt"></i> Deccan Chargers</h3>
+            <a href="https://musudik.github.io/deccan-chargers/" target="_blank" class="project-link">
+              <i class="fas fa-external-link-alt"></i>
+            </a>
+          </div>
+          <p class="project-description">Official cricket team website featuring team roster, match schedules, and fan engagement with dynamic sports content.</p>
+          <div class="tech-stack">
+            <span class="tech-tag">WordPress</span>
+            <span class="tech-tag">Custom Theme</span>
+            <span class="tech-tag">PHP</span>
+            <span class="tech-tag">jQuery</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-header">
+            <h3><i class="fas fa-palette"></i> Mirusa by Sandy</h3>
+            <a href="https://musudik.github.io/mirusa/" target="_blank" class="project-link">
+              <i class="fas fa-external-link-alt"></i>
+            </a>
+          </div>
+          <p class="project-description">Elegant fashion portfolio showcasing contemporary designs with sophisticated visual storytelling and brand identity.</p>
+          <div class="tech-stack">
+            <span class="tech-tag">React</span>
+            <span class="tech-tag">Styled Components</span>
+            <span class="tech-tag">Framer Motion</span>
+            <span class="tech-tag">Gatsby</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="section-close">
+        <button id="close-projects" class="close-btn">
+          <i class="fas fa-times"></i> Close Projects
+        </button>
+      </div>
+    </div>
+  </section>
+
   <div class="ticker-section">
     <div class="ticker-container">
       <div class="ticker-wrapper">
@@ -605,12 +930,21 @@
         </ul>
       </div>
       <div class="footer-section">
+        <h4>Legal & Privacy</h4>
+        <ul>
+          <li><a href="#" id="privacy-policy-link">Privacy Policy</a></li>
+          <li><a href="#" id="cookie-policy-link">Cookie Policy</a></li>
+          <li><a href="#" id="terms-link">Terms of Service</a></li>
+          <li><a href="#" id="gdpr-settings-link">Cookie Settings</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
         <h4>Connect With Us</h4>
         <div class="social-links">
           <a href="https://wa.me/4917644417602" class="social-icon" target="_blank">
             <i class="fab fa-whatsapp"></i>
           </a>
-          <a href="https://github.com/yourusername" class="social-icon" target="_blank">
+          <a href="https://github.com/musudik" class="social-icon" target="_blank">
             <i class="fab fa-github"></i>
           </a>
           <a href="https://linkedin.com/in/yourprofile" class="social-icon" target="_blank">
@@ -623,9 +957,83 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <p>&copy; 2025 FK.GPT. All rights reserved. | Professional Web Development & Hosting Services</p>
+      <p>&copy; 2025 FK.GPT. All rights reserved. | Professional Web Development & Hosting Services | 
+      <a href="#" id="footer-privacy-link" style="color: #00ffff;">Privacy Policy</a> | 
+      <a href="#" id="footer-cookie-link" style="color: #00ffff;">Cookie Settings</a></p>
     </div>
   </footer>
+
+  <!-- GDPR Cookie Consent Banner -->
+  <div id="gdpr-banner" class="gdpr-banner">
+    <div class="gdpr-content">
+      <div class="gdpr-text">
+        <h4>🍪 We Value Your Privacy</h4>
+        <p>We use cookies and similar technologies to enhance your browsing experience, analyze site traffic, and personalize content. 
+        By clicking "Accept All", you consent to our use of cookies. You can manage your preferences or learn more in our 
+        <a href="#" id="banner-privacy-link">Privacy Policy</a>.</p>
+      </div>
+      <div class="gdpr-buttons">
+        <button id="gdpr-accept" class="gdpr-btn gdpr-accept">Accept All</button>
+        <button id="gdpr-decline" class="gdpr-btn gdpr-decline">Decline</button>
+        <button id="gdpr-settings" class="gdpr-btn gdpr-settings">Cookie Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Privacy Settings Modal -->
+  <div id="privacy-modal" class="privacy-modal">
+    <div class="privacy-content">
+      <h3>🔒 Privacy & Cookie Settings</h3>
+      
+      <h4>Essential Cookies</h4>
+      <div class="cookie-toggle">
+        <div>
+          <strong>Necessary Cookies</strong>
+          <p>These cookies are essential for the website to function properly. They cannot be disabled.</p>
+        </div>
+        <div class="toggle-switch active" data-type="essential">
+          <span style="opacity: 0.5; cursor: not-allowed;"></span>
+        </div>
+      </div>
+
+      <h4>Analytics Cookies</h4>
+      <div class="cookie-toggle">
+        <div>
+          <strong>Google Analytics</strong>
+          <p>Help us understand how visitors interact with our website by collecting anonymous information.</p>
+        </div>
+        <div class="toggle-switch" data-type="analytics" id="analytics-toggle"></div>
+      </div>
+
+      <h4>Marketing Cookies</h4>
+      <div class="cookie-toggle">
+        <div>
+          <strong>Marketing & Advertising</strong>
+          <p>Used to track visitors across websites to display relevant advertisements.</p>
+        </div>
+        <div class="toggle-switch" data-type="marketing" id="marketing-toggle"></div>
+      </div>
+
+      <h4>Functional Cookies</h4>
+      <div class="cookie-toggle">
+        <div>
+          <strong>Functionality</strong>
+          <p>Enable enhanced functionality like chat widgets and social media features.</p>
+        </div>
+        <div class="toggle-switch" data-type="functional" id="functional-toggle"></div>
+      </div>
+
+      <div style="margin-top: 30px; text-align: center;">
+        <button id="save-preferences" class="gdpr-btn gdpr-accept" style="margin-right: 10px;">Save Preferences</button>
+        <button id="close-modal" class="gdpr-btn gdpr-decline">Close</button>
+      </div>
+
+      <div style="margin-top: 20px; font-size: 12px; color: #ccc;">
+        <p><strong>Data Controller:</strong> FK.GPT (contact@fkgpt.dev)</p>
+        <p><strong>Your Rights:</strong> You have the right to access, rectify, delete, or port your data. Contact us for any privacy-related requests.</p>
+      </div>
+    </div>
+  </div>
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
