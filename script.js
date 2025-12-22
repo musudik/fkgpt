@@ -121,7 +121,7 @@ const navLinks = document.querySelectorAll('.nav-links a');
 
 navLinks.forEach(link => {
   const originalText = link.textContent;
-  
+
   link.addEventListener('mouseenter', () => {
     let intervalCount = 0;
     const shuffleInterval = setInterval(() => {
@@ -130,7 +130,7 @@ navLinks.forEach(link => {
         link.textContent = originalText;
         return;
       }
-      
+
       link.textContent = originalText
         .split('')
         .map(char => {
@@ -142,7 +142,7 @@ navLinks.forEach(link => {
           return Math.random() > 0.5 ? getRandomChar() : char;
         })
         .join('');
-      
+
       intervalCount++;
     }, 50);
   });
@@ -155,39 +155,39 @@ function getRandomChar() {
 
 // Define cities array outside the function so it can be modified
 let cities = [
-    { name: 'Tokyo', timezone: 'Asia/Tokyo' },
-    { name: 'Dubai', timezone: 'Asia/Dubai' },
-    { name: 'London', timezone: 'Europe/London' },
-    { name: 'New York', timezone: 'America/New_York' },
-    { name: 'Los Angeles', timezone: 'America/Los_Angeles' }
+  { name: 'Tokyo', timezone: 'Asia/Tokyo' },
+  { name: 'Dubai', timezone: 'Asia/Dubai' },
+  { name: 'London', timezone: 'Europe/London' },
+  { name: 'New York', timezone: 'America/New_York' },
+  { name: 'Los Angeles', timezone: 'America/Los_Angeles' }
 ];
 
 function updateClocks() {
   const clockContainers = document.querySelectorAll('.clock-container');
-  
+
   clockContainers.forEach((container, index) => {
     if (index >= cities.length) return;
-    
+
     const now = new Date().toLocaleString('en-US', { timeZone: cities[index].timezone });
     const time = new Date(now);
-    
+
     const hours = time.getHours();
     const minutes = time.getMinutes();
     const seconds = time.getSeconds();
-    
+
     // Update analog clock hands
     const hourHand = container.querySelector('.hour-hand');
     const minuteHand = container.querySelector('.minute-hand');
     const secondHand = container.querySelector('.second-hand');
-    
+
     const hourDegrees = ((hours % 12) / 12) * 360 + ((minutes / 60) * 30);
     const minuteDegrees = (minutes / 60) * 360;
     const secondDegrees = (seconds / 60) * 360;
-    
+
     hourHand.style.transform = `rotate(${hourDegrees}deg)`;
     minuteHand.style.transform = `rotate(${minuteDegrees}deg)`;
     secondHand.style.transform = `rotate(${secondDegrees}deg)`;
-    
+
     // Update digital time display
     const timeString = time.toLocaleTimeString('en-US', {
       hour12: false,
@@ -206,7 +206,7 @@ updateClocks(); // Initial update
 function createClockElement(timezone) {
   const container = document.createElement('div');
   container.className = 'clock-container';
-  
+
   container.innerHTML = `
     <div class="clock">
       <div class="clock-face">
@@ -219,28 +219,28 @@ function createClockElement(timezone) {
     <div class="city-name">${timezone.split('/')[1].replace('_', ' ')}</div>
     <div class="time-display"></div>
   `;
-  
+
   return container;
 }
 
 document.getElementById('add-clock').addEventListener('click', () => {
   const select = document.getElementById('timezone-select');
   const selectedTimezone = select.value;
-  
+
   if (selectedTimezone) {
     const clocksContainer = document.querySelector('.timezone-clocks');
     const controlsContainer = document.querySelector('.clock-controls');
     const newClock = createClockElement(selectedTimezone);
-    
+
     // Insert the new clock before the controls
     clocksContainer.insertBefore(newClock, controlsContainer);
-    
+
     // Add the new timezone to the cities array
     cities.push({ name: selectedTimezone.split('/')[1], timezone: selectedTimezone });
-    
+
     // Reset the select
     select.value = '';
-    
+
     // Update all clocks
     updateClocks();
   }
@@ -320,11 +320,11 @@ const allTimezones = [
 function populateTimezoneSelect(searchTerm = '') {
   const select = document.getElementById('timezone-select');
   select.innerHTML = '<option value="">Select a timezone...</option>';
-  
-  const filteredTimezones = allTimezones.filter(tz => 
+
+  const filteredTimezones = allTimezones.filter(tz =>
     tz.label.toLowerCase().includes(searchTerm.toLowerCase())
   );
-  
+
   filteredTimezones.forEach(tz => {
     const option = document.createElement('option');
     option.value = tz.zone;
@@ -336,7 +336,7 @@ function populateTimezoneSelect(searchTerm = '') {
 // Initialize the timezone select
 document.addEventListener('DOMContentLoaded', () => {
   populateTimezoneSelect();
-  
+
   // Add search functionality
   const searchInput = document.getElementById('timezone-search');
   searchInput.addEventListener('input', (e) => {
@@ -391,14 +391,14 @@ function generateCustomName() {
 function generateRandomName() {
   const generatedName = document.getElementById('generatedName');
   generatedName.textContent = 'Generating...';
-  
+
   // Add loading animation
   generatedName.style.opacity = '0.7';
 
   $.ajax({
     url: 'https://randomuser.me/api/',
     dataType: 'json',
-    success: function(data) {
+    success: function (data) {
       const user = data.results[0];
       const names = [
         // API generated name
@@ -406,25 +406,25 @@ function generateRandomName() {
         // Custom generated name
         generateCustomName()
       ];
-      
+
       // Randomly choose between API name and custom name
       const selectedName = names[Math.floor(Math.random() * names.length)];
-      
+
       // Update display with animation
       generatedName.textContent = selectedName;
       generatedName.style.opacity = '1';
-      
+
       // Add glow animation
       generatedName.classList.remove('animate');
       void generatedName.offsetWidth; // Trigger reflow
       generatedName.classList.add('animate');
     },
-    error: function() {
+    error: function () {
       // Fallback to custom name generator if API fails
       const fallbackName = generateCustomName();
       generatedName.textContent = fallbackName;
       generatedName.style.opacity = '1';
-      
+
       // Add glow animation
       generatedName.classList.remove('animate');
       void generatedName.offsetWidth;
@@ -493,7 +493,7 @@ function initializeChatWidget() {
       }
 
       const data = await response.json();
-      
+
       // Remove loading message
       chatMessages.removeChild(loadingDiv);
 
@@ -520,18 +520,18 @@ function initializeChatWidget() {
   }
 
   // Event Listeners
-  sendButton.addEventListener('click', function(e) {
+  sendButton.addEventListener('click', function (e) {
     sendMessage(e);
   });
 
-  chatInput.addEventListener('keypress', function(e) {
+  chatInput.addEventListener('keypress', function (e) {
     if (e.key === 'Enter' && !e.shiftKey) {
       sendMessage(e);
     }
   });
 
   // Touch event for mobile
-  sendButton.addEventListener('touchend', function(e) {
+  sendButton.addEventListener('touchend', function (e) {
     sendMessage(e);
   });
 
@@ -574,10 +574,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Reset classes
     resultDisplay.className = 'flip-result';
     resultDisplay.textContent = 'Flipping...';
-    
+
     // Add flipping animation
     coin.classList.add('flipping');
-    
+
     // Disable button during flip
     flipButton.disabled = true;
     flipButton.style.opacity = '0.5';
@@ -589,14 +589,14 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
       // Remove flipping animation
       coin.classList.remove('flipping');
-      
+
       // Set final rotation based on result
       coin.style.transform = result === 'heads' ? 'rotateY(0)' : 'rotateY(180deg)';
-      
+
       // Update result text with animation
       resultDisplay.className = `flip-result ${result}`;
       resultDisplay.textContent = result.toUpperCase();
-      
+
       // Re-enable button
       flipButton.disabled = false;
       flipButton.style.opacity = '1';
@@ -622,7 +622,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function typeWriter(element, text, speed = 50) {
     let i = 0;
     element.textContent = '';
-    
+
     function type() {
       if (i < text.length) {
         element.textContent += text.charAt(i);
@@ -632,7 +632,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(type, speed);
       }
     }
-    
+
     type();
   }
 
@@ -656,7 +656,7 @@ document.addEventListener('DOMContentLoaded', () => {
       Generate unique identifiers for entities in the digital realm using advanced AI algorithms 
       and quantum randomization protocols.
     `,
-    
+
     'coinToss': `
       BINARY FATE DETERMINATOR v1.5
       ============================
@@ -669,41 +669,41 @@ document.addEventListener('DOMContentLoaded', () => {
   function createHelpBubble(description, iconElement) {
     const bubble = document.createElement('div');
     bubble.className = 'help-bubble';
-    
+
     const iconRect = iconElement.getBoundingClientRect();
     bubble.style.top = `${iconRect.top}px`;
     bubble.style.left = `${iconRect.left - 780}px`; // Adjusted for new width
-    
+
     const bubbleBackground = document.createElement('div');
     bubbleBackground.className = 'bubble-background';
-    
+
     const neonGradient = document.createElement('div');
     neonGradient.className = 'neon-gradient';
-    
+
     const bubbleBorder = document.createElement('div');
     bubbleBorder.className = 'bubble-border';
-    
+
     const content = document.createElement('div');
     content.className = 'bubble-content';
-    
+
     bubbleBackground.appendChild(neonGradient);
     bubble.appendChild(bubbleBackground);
     bubble.appendChild(bubbleBorder);
     bubble.appendChild(content);
-    
+
     document.body.appendChild(bubble);
-    
+
     // Digital text reveal animation
     function revealText() {
       const chars = description.split('');
       content.innerHTML = '';
-      
+
       chars.forEach((char, index) => {
         const span = document.createElement('span');
         span.className = 'char';
         span.textContent = char;
         content.appendChild(span);
-        
+
         setTimeout(() => {
           span.classList.add('visible');
           if (char !== ' ') {
@@ -713,10 +713,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }, index * 30); // Adjust speed here
       });
     }
-    
+
     // Start the reveal animation after bubble is added
     setTimeout(revealText, 100);
-    
+
     return bubble;
   }
 
@@ -729,16 +729,16 @@ document.addEventListener('DOMContentLoaded', () => {
     icon.addEventListener('mouseenter', () => {
       document.querySelectorAll('.help-bubble').forEach(b => b.remove());
       bubble = createHelpBubble(description, icon);
-      
+
       const [color1, color2, color3] = getRandomNeonTheme();
       bubble.style.setProperty('--color1', color1);
       bubble.style.setProperty('--color2', color2);
       bubble.style.setProperty('--color3', color3);
-      
+
       requestAnimationFrame(() => {
         bubble.classList.add('active');
       });
-      
+
       hoverSound.currentTime = 0;
       hoverSound.play();
     });
@@ -770,30 +770,30 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function fetchNews() {
-    try {
-        // Using rss2json service to convert RSS feed to JSON and handle CORS
-        const rssUrl = 'https://news.google.com/rss/search?q=apple&hl=en-US&gl=US&ceid=US:en';
-        const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`);
-        
-        const data = await response.json();
-        
-        if (data.status === 'ok') {
-            let newsText = '';
-            data.items.forEach(item => {
-                newsText += `${item.title} • `;
-            });
+  try {
+    // Using rss2json service to convert RSS feed to JSON and handle CORS
+    const rssUrl = 'https://news.google.com/rss/search?q=apple&hl=en-US&gl=US&ceid=US:en';
+    const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`);
 
-            const tickerElement = document.querySelector('.ticker-text');
-            tickerElement.textContent = newsText;
-        } else {
-            throw new Error('Failed to fetch RSS feed');
-        }
+    const data = await response.json();
 
-    } catch (error) {
-        console.error('Error fetching news:', error);
-        const tickerElement = document.querySelector('.ticker-text');
-        tickerElement.textContent = 'Loading latest Apple news... Please wait •';
+    if (data.status === 'ok') {
+      let newsText = '';
+      data.items.forEach(item => {
+        newsText += `${item.title} • `;
+      });
+
+      const tickerElement = document.querySelector('.ticker-text');
+      tickerElement.textContent = newsText;
+    } else {
+      throw new Error('Failed to fetch RSS feed');
     }
+
+  } catch (error) {
+    console.error('Error fetching news:', error);
+    const tickerElement = document.querySelector('.ticker-text');
+    tickerElement.textContent = 'Loading latest Apple news... Please wait •';
+  }
 }
 
 // Initial fetch
@@ -803,20 +803,20 @@ fetchNews();
 setInterval(fetchNews, 300000);
 
 // Add event listener to restart animation when it completes
-document.querySelector('.ticker-text').addEventListener('animationend', function() {
-    this.style.animation = 'none';
-    this.offsetHeight; // Trigger reflow
-    this.style.animation = 'ticker 60s linear infinite';
+document.querySelector('.ticker-text').addEventListener('animationend', function () {
+  this.style.animation = 'none';
+  this.offsetHeight; // Trigger reflow
+  this.style.animation = 'ticker 60s linear infinite';
 });
 
 // Update Tambola initialization and controls
 class TambolaGame {
   constructor() {
-    this.numbers = Array.from({length: 90}, (_, i) => i + 1);
+    this.numbers = Array.from({ length: 90 }, (_, i) => i + 1);
     this.calledNumbers = [];
     this.currentNumber = null;
     this.isGameActive = false;
-    
+
     this.initializeBoard();
     this.initializeControls();
   }
@@ -824,7 +824,7 @@ class TambolaGame {
   initializeBoard() {
     const board = document.querySelector('.tambola-board');
     if (!board) return;
-    
+
     board.innerHTML = '';
     for (let i = 1; i <= 90; i++) {
       const cell = document.createElement('div');
@@ -837,20 +837,20 @@ class TambolaGame {
   initializeControls() {
     const drawBtn = document.getElementById('drawNumber');
     const restartGameToggle = document.querySelector('.restart-game-toggle');
-    
+
     if (drawBtn) {
       drawBtn.addEventListener('click', () => this.drawNumber());
     }
-    
+
     if (restartGameToggle) {
       restartGameToggle.addEventListener('click', () => {
         // Add rotation animation
         const icon = restartGameToggle.querySelector('i');
         icon.style.transform = 'rotate(360deg)';
-        
+
         // Reset the game
         this.resetGame();
-        
+
         // Reset the rotation after animation
         setTimeout(() => {
           icon.style.transform = 'rotate(0deg)';
@@ -874,7 +874,7 @@ class TambolaGame {
     if (currentNumberDisplay) {
       currentNumberDisplay.textContent = this.currentNumber;
     }
-    
+
     // Update board
     const cells = document.querySelectorAll('.number-cell');
     cells[this.currentNumber - 1].classList.add('called', 'just-called');
@@ -895,20 +895,20 @@ class TambolaGame {
   }
 
   resetGame() {
-    this.numbers = Array.from({length: 90}, (_, i) => i + 1);
+    this.numbers = Array.from({ length: 90 }, (_, i) => i + 1);
     this.calledNumbers = [];
     this.currentNumber = null;
-    
+
     const currentNumberDisplay = document.getElementById('currentNumber');
     if (currentNumberDisplay) {
       currentNumberDisplay.textContent = '--';
     }
-    
+
     const historyDisplay = document.getElementById('numberHistory');
     if (historyDisplay) {
       historyDisplay.textContent = '';
     }
-    
+
     document.querySelectorAll('.number-cell').forEach(cell => {
       cell.classList.remove('called', 'just-called');
     });
@@ -924,7 +924,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function initializeClockControls() {
   const toggleBtn = document.querySelector('.add-clock-toggle');
   const clockControls = document.querySelector('.clock-controls');
-  
+
   toggleBtn.addEventListener('click', () => {
     clockControls.classList.toggle('show');
     // Change icon based on state
@@ -940,9 +940,9 @@ function initializeClockControls() {
 
   // Close controls when clicking outside
   document.addEventListener('click', (e) => {
-    if (!clockControls.contains(e.target) && 
-        !toggleBtn.contains(e.target) && 
-        clockControls.classList.contains('show')) {
+    if (!clockControls.contains(e.target) &&
+      !toggleBtn.contains(e.target) &&
+      clockControls.classList.contains('show')) {
       clockControls.classList.remove('show');
       const icon = toggleBtn.querySelector('i');
       icon.classList.remove('fa-minus');
@@ -955,4 +955,387 @@ function initializeClockControls() {
 document.addEventListener('DOMContentLoaded', () => {
   initializeClockControls();
   // ... rest of your initialization code
+});
+
+// =============================================
+// VOICE AGENT FUNCTIONALITY
+// =============================================
+
+class VoiceAgent {
+  constructor() {
+    // DOM Elements
+    this.voiceIcon = document.getElementById('voiceAgentIcon');
+    this.voiceWidget = document.getElementById('voiceAgentWidget');
+    this.voiceClose = document.getElementById('voiceAgentClose');
+    this.voiceStatus = document.getElementById('voiceAgentStatus');
+    this.voiceTranscript = document.getElementById('voiceTranscript');
+    this.voiceMicBtn = document.getElementById('voiceMicBtn');
+    this.voiceEndBtn = document.getElementById('voiceEndBtn');
+
+    // State
+    this.isListening = false;
+    this.recognition = null;
+    this.synthesis = window.speechSynthesis;
+    this.conversationHistory = [];
+
+    // n8n Webhook URL - Update this to your n8n instance
+    this.webhookUrl = 'https://n8n.fkgpt.dev/webhook/voice-agent';
+
+    // Initialize
+    this.init();
+  }
+
+  init() {
+    // Check for browser support
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+      console.warn('Speech Recognition not supported in this browser');
+      this.updateStatus('Browser not supported', 'error');
+      return;
+    }
+
+    // Initialize Speech Recognition
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    this.recognition = new SpeechRecognition();
+    this.recognition.continuous = false;
+    this.recognition.interimResults = true;
+    this.recognition.lang = 'en-US';
+
+    // Bind event handlers
+    this.bindEvents();
+
+    console.log('Voice Agent initialized');
+  }
+
+  bindEvents() {
+    // Toggle voice widget
+    this.voiceIcon.addEventListener('click', () => this.toggleWidget());
+
+    // Close button
+    this.voiceClose.addEventListener('click', () => this.closeWidget());
+
+    // Microphone button
+    this.voiceMicBtn.addEventListener('click', () => this.toggleListening());
+
+    // End call button
+    this.voiceEndBtn.addEventListener('click', () => this.endConversation());
+
+    // Speech Recognition events
+    if (this.recognition) {
+      this.recognition.onstart = () => this.onRecognitionStart();
+      this.recognition.onend = () => this.onRecognitionEnd();
+      this.recognition.onresult = (event) => this.onRecognitionResult(event);
+      this.recognition.onerror = (event) => this.onRecognitionError(event);
+    }
+
+    // Close widget when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!this.voiceWidget.contains(e.target) &&
+        !this.voiceIcon.contains(e.target) &&
+        this.voiceWidget.classList.contains('show')) {
+        // Don't close if actively in conversation
+        if (!this.isListening) {
+          // Keep widget open for usability
+        }
+      }
+    });
+  }
+
+  toggleWidget() {
+    this.voiceWidget.classList.toggle('show');
+    if (this.voiceWidget.classList.contains('show')) {
+      // Widget opened - speak welcome message
+      this.speakMessage("Hello! Welcome to FKGPT Services. How can I help you today?");
+    }
+  }
+
+  closeWidget() {
+    this.voiceWidget.classList.remove('show');
+    this.stopListening();
+    this.synthesis.cancel();
+  }
+
+  toggleListening() {
+    if (this.isListening) {
+      this.stopListening();
+    } else {
+      this.startListening();
+    }
+  }
+
+  async startListening() {
+    if (!this.recognition) {
+      this.updateStatus('Speech recognition not available', 'error');
+      return;
+    }
+
+    try {
+      // Cancel any ongoing speech
+      this.synthesis.cancel();
+
+      this.recognition.start();
+      this.isListening = true;
+      this.voiceMicBtn.classList.add('active');
+      this.voiceWidget.classList.add('listening');
+      this.updateStatus('Listening...', 'listening');
+    } catch (error) {
+      console.error('Error starting recognition:', error);
+      if (error.name === 'NotAllowedError') {
+        this.updateStatus('Microphone access denied', 'error');
+      }
+    }
+  }
+
+  stopListening() {
+    if (this.recognition && this.isListening) {
+      this.recognition.stop();
+      this.isListening = false;
+      this.voiceMicBtn.classList.remove('active');
+      this.voiceWidget.classList.remove('listening');
+    }
+  }
+
+  onRecognitionStart() {
+    console.log('Recognition started');
+  }
+
+  onRecognitionEnd() {
+    console.log('Recognition ended');
+    if (this.isListening) {
+      this.isListening = false;
+      this.voiceMicBtn.classList.remove('active');
+      this.voiceWidget.classList.remove('listening');
+    }
+  }
+
+  onRecognitionResult(event) {
+    let finalTranscript = '';
+    let interimTranscript = '';
+
+    for (let i = event.resultIndex; i < event.results.length; i++) {
+      const transcript = event.results[i][0].transcript;
+      if (event.results[i].isFinal) {
+        finalTranscript += transcript;
+      } else {
+        interimTranscript += transcript;
+      }
+    }
+
+    // Show interim results in status
+    if (interimTranscript) {
+      this.updateStatus(`"${interimTranscript}"`, 'listening');
+    }
+
+    // Process final result
+    if (finalTranscript) {
+      this.stopListening();
+      this.processUserInput(finalTranscript.trim());
+    }
+  }
+
+  onRecognitionError(event) {
+    console.error('Recognition error:', event.error);
+    this.isListening = false;
+    this.voiceMicBtn.classList.remove('active');
+    this.voiceWidget.classList.remove('listening');
+
+    switch (event.error) {
+      case 'no-speech':
+        this.updateStatus('No speech detected. Try again.', 'error');
+        break;
+      case 'not-allowed':
+        this.updateStatus('Microphone access denied', 'error');
+        break;
+      case 'network':
+        this.updateStatus('Network error. Check connection.', 'error');
+        break;
+      default:
+        this.updateStatus('Error occurred. Try again.', 'error');
+    }
+
+    // Reset status after delay
+    setTimeout(() => {
+      this.updateStatus('Click mic to speak', '');
+    }, 3000);
+  }
+
+  async processUserInput(text) {
+    // Add user message to transcript
+    this.addTranscriptEntry(text, 'user');
+
+    // Update status
+    this.updateStatus('Processing...', 'processing');
+
+    // Send to n8n webhook
+    try {
+      const response = await this.sendToWebhook(text);
+
+      if (response && response.status) {
+        // Add bot response to transcript
+        this.addTranscriptEntry(response.status, 'bot');
+
+        // Speak the response
+        this.speakMessage(response.status);
+      } else {
+        throw new Error('Invalid response from server');
+      }
+    } catch (error) {
+      console.error('Error processing input:', error);
+      const errorMsg = "I'm sorry, I couldn't process your request. Please try again.";
+      this.addTranscriptEntry(errorMsg, 'bot');
+      this.speakMessage(errorMsg);
+      this.updateStatus('Error - Try again', 'error');
+    }
+  }
+
+  async sendToWebhook(message) {
+    try {
+      const response = await fetch(this.webhookUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          message: message,
+          timestamp: new Date().toISOString(),
+          conversationHistory: this.conversationHistory.slice(-5) // Last 5 messages for context
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      // Store in conversation history
+      this.conversationHistory.push({
+        role: 'user',
+        content: message
+      });
+
+      if (data.status) {
+        this.conversationHistory.push({
+          role: 'assistant',
+          content: data.status
+        });
+      }
+
+      return data;
+    } catch (error) {
+      console.error('Webhook error:', error);
+      throw error;
+    }
+  }
+
+  addTranscriptEntry(text, type) {
+    const entry = document.createElement('div');
+    entry.className = `transcript-entry ${type}`;
+
+    const avatar = document.createElement('div');
+    avatar.className = 'transcript-avatar';
+    avatar.innerHTML = type === 'bot'
+      ? '<i class="fas fa-robot"></i>'
+      : '<i class="fas fa-user"></i>';
+
+    const textDiv = document.createElement('div');
+    textDiv.className = 'transcript-text';
+    textDiv.textContent = text;
+
+    entry.appendChild(avatar);
+    entry.appendChild(textDiv);
+
+    this.voiceTranscript.appendChild(entry);
+
+    // Scroll to bottom
+    this.voiceTranscript.scrollTop = this.voiceTranscript.scrollHeight;
+  }
+
+  speakMessage(text) {
+    if (!this.synthesis) return;
+
+    // Cancel any ongoing speech
+    this.synthesis.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 1.0;
+    utterance.pitch = 1.0;
+    utterance.volume = 1.0;
+
+    // Try to find a natural-sounding voice
+    const voices = this.synthesis.getVoices();
+    const preferredVoice = voices.find(voice =>
+      voice.lang.startsWith('en') && voice.name.includes('Google')
+    ) || voices.find(voice => voice.lang.startsWith('en'));
+
+    if (preferredVoice) {
+      utterance.voice = preferredVoice;
+    }
+
+    utterance.onstart = () => {
+      this.updateStatus('Speaking...', 'speaking');
+    };
+
+    utterance.onend = () => {
+      this.updateStatus('Click mic to speak', '');
+    };
+
+    utterance.onerror = (event) => {
+      console.error('Speech error:', event);
+      this.updateStatus('Click mic to speak', '');
+    };
+
+    this.synthesis.speak(utterance);
+  }
+
+  updateStatus(text, state) {
+    const statusSpan = this.voiceStatus.querySelector('span');
+    if (statusSpan) {
+      statusSpan.textContent = text;
+    }
+
+    // Update CSS classes
+    this.voiceStatus.className = 'voice-agent-status';
+    if (state) {
+      this.voiceStatus.classList.add(state);
+    }
+  }
+
+  endConversation() {
+    // Stop any ongoing processes
+    this.stopListening();
+    this.synthesis.cancel();
+
+    // Clear conversation history
+    this.conversationHistory = [];
+
+    // Reset transcript to initial state
+    this.voiceTranscript.innerHTML = `
+      <div class="transcript-entry bot">
+        <div class="transcript-avatar"><i class="fas fa-robot"></i></div>
+        <div class="transcript-text">Hello! Welcome to FKGPT Services. How can I help you today?</div>
+      </div>
+    `;
+
+    // Update status
+    this.updateStatus('Conversation ended', '');
+
+    // Close widget after brief delay
+    setTimeout(() => {
+      this.closeWidget();
+      this.updateStatus('Click to start conversation', '');
+    }, 1500);
+  }
+}
+
+// Initialize Voice Agent when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+  // Load voices (needed for some browsers)
+  if (window.speechSynthesis) {
+    window.speechSynthesis.onvoiceschanged = () => {
+      window.speechSynthesis.getVoices();
+    };
+  }
+
+  // Initialize the voice agent
+  window.voiceAgent = new VoiceAgent();
 });

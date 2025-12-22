@@ -275,6 +275,46 @@
     </div>
   </div>
 
+  <!-- Voice Agent Icon -->
+  <div class="voice-agent-icon" id="voiceAgentIcon">
+    <i class="fas fa-phone"></i>
+  </div>
+
+  <!-- Voice Agent Popup -->
+  <div id="voiceAgentWidget" class="voice-agent-widget">
+    <div class="voice-agent-header">
+      <span class="voice-agent-title">
+        <i class="fas fa-headset"></i> Voice Assistant
+      </span>
+      <span class="voice-agent-close" id="voiceAgentClose">&times;</span>
+    </div>
+    <div class="voice-agent-body">
+      <div class="voice-agent-status" id="voiceAgentStatus">
+        <div class="status-indicator"></div>
+        <span>Click to start conversation</span>
+      </div>
+      <div class="voice-visualization" id="voiceVisualization">
+        <div class="sound-wave">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+      </div>
+      <div class="voice-transcript" id="voiceTranscript">
+        <div class="transcript-entry bot">
+          <div class="transcript-avatar"><i class="fas fa-robot"></i></div>
+          <div class="transcript-text">Hello! Welcome to FKGPT Services. How can I help you today?</div>
+        </div>
+      </div>
+      <div class="voice-controls">
+        <button class="voice-btn" id="voiceMicBtn">
+          <i class="fas fa-microphone"></i>
+        </button>
+        <button class="voice-btn voice-end-btn" id="voiceEndBtn">
+          <i class="fas fa-phone-slash"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="script.js"></script>
   
